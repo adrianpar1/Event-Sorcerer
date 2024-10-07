@@ -1,76 +1,27 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Sorcerer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="question-container">
+    <div id="question-text"></div>
+    <div id="input-container">
+      <input type="text" id="answer-input" />
+      <button id="submit-button">Submit</button>
+    </div>
+  </div>
 
-    <head> 
-        <title> Event Sorcerer</title> 
-    </head>
+  <div id="answers-container">
+    <h2>Your Event Details</h2>
+    <form id="answers-list"></form> <!-- Make it a form for editing -->
+    <button id="add-to-calendar-button">Add to Calendar</button>
+  </div>
 
-    <h1>Event Sorcerer</h1>
-
-    <body>
-
-        
-        <label for="name"> Event Name:</label>
-            <input type="text" id="name" name="name"/>
-            <br>
-
-        <br>
-        <label for="Budget">Budget?</label>
-        <input type = "range">
-        </div>
-        
-        <br><br>
-        <label for="Desired Outcome for Event">Desired Outcome for Event:</label>
-        <br>
-        <textarea id="Desired Outcome" name="Outcome"></textarea> 
-
-
-        <br><br>
-        <form method="GET">
-            <label for="theme">Theme of the event?:</label>
-            <select name="theme" id="theme">
-              <option value="Classy">Classy</option>
-              <option value="Fantasy/Fiction">Fantasy/Fiction</option>
-              <option value="Party">Party</option>
-            </select>
-            <input type="submit" value="Submit Form">
-          </form>
-    
-
-          <br>
-            <form method="GET">
-                <label for="audience">Targetted audience:</label>
-                <select name="Targetted audience" id="targetted audience">
-                  <option value="Wealthy">Wealthy</option>
-                  <option value="College Students">College Students</option>
-                  <option value="Youth">Youth</option>
-                </select>
-                <input type="submit" value="Submit Form">
-              </form>
-
-
-
-        <br><br><br>
-          <fieldset>
-            <legend>How was the event?</legend>
-            <ul>
-              <li>
-                <label>
-                  <input type="radio" value="Good" name="good"> Good
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" value="Decent" name="decent"> Decent
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" value="Bad"  name="bad"> Bad
-                </label>
-              </li>
-            </ul>
-          </fieldset>
-
-
-
-        </body>
+  <script src="script.js"></script>
+</body>
+</html>

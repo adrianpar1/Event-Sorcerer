@@ -1,0 +1,116 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Full Page Container */
+body {
+  font-family: 'Lexend', Arial, sans-serif;
+  background-color: #202030; /* Updated Dark Background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* Styling for the question text */
+#question-text {
+  font-size: 3em; /* Much larger text */
+  font-weight: 600; /* Semi-bold */
+  color: #b9d6f2; /* Light Blue */
+  margin-bottom: 20px;
+  background: none; /* No background */
+  padding: 0; /* No padding */
+}
+
+/* Container for input and button */
+#input-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center align elements */
+}
+
+/* Input field styling */
+#answer-input {
+  width: calc(100% - 40px); /* Adjust for margin */
+  max-width: 400px; /* Limit max-width */
+  padding: 10px;
+  border: 1px solid #0353a4; /* Medium Blue */
+  border-radius: 25px; /* Rounded bubble */
+  margin-bottom: 20px; /* Space below input */
+  font-size: 1em;
+  outline: none; /* Remove default focus outline */
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Optional inner shadow */
+}
+
+/* Button styling */
+#submit-button {
+  background-color: #39304a; /* Updated Button Color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px; /* Rounded button */
+  font-size: 1em;
+  cursor: pointer;
+  font-family: 'Lexend', Arial, sans-serif;
+}
+
+#submit-button:hover {
+  background-color: #202030; /* Darker Shade for Hover */
+}
+
+/* Styling for the answers container */
+#answers-container {
+  display: none; /* Hidden initially */
+  background-color: #b9d6f2; /* Light Blue */
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 600px; /* Limit max-width */
+  margin: 0 auto;
+}
+
+/* Styling for the answers list */
+#answers-list {
+  list-style: none; /* Remove default list style */
+  padding: 0;
+}
+
+/* Styling for individual answer items */
+.answer-item {
+  margin-bottom: 15px; /* Space between items */
+}
+
+.answer-item label {
+  display: block; /* Ensure label is on its own line */
+  font-weight: bold; /* Make labels stand out */
+  color: #061a40; /* Dark Blue */
+}
+
+.answer-item input {
+  width: 100%; /* Full width */
+  padding: 10px;
+  border: 1px solid #0353a4; /* Medium Blue */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 1em;
+  outline: none; /* Remove default focus outline */
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Optional inner shadow */
+}
+
+/* Button for adding to calendar */
+#add-to-calendar-button {
+  background-color: #39304a; /* Updated Button Color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px; /* Rounded button */
+  font-size: 1em;
+  cursor: pointer;
+  font-family: 'Lexend', Arial, sans-serif;
+}
+
+#add-to-calendar-button:hover {
+  background-color: #202030; /* Darker Shade for Hover */
+}
