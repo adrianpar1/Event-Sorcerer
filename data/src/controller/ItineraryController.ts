@@ -2,7 +2,7 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { Itinerary } from "../entity/Itinerary";
 
-export class Itinerary {
+export class ItineraryController {
     private itineraryRepository = AppDataSource.getRepository(Itinerary);
 
     async all(request: Request, response: Response, next: NextFunction) {
@@ -17,7 +17,7 @@ export class Itinerary {
         });
 
         if (!itinerary) {
-            return "no event details found";
+            return "no subevent details found";
         }
         return itinerary;
     }
@@ -51,12 +51,12 @@ export class Itinerary {
             id,
         });
 
-        if (!detailsToRemove) {
-            throw Error("these event details do not exist");
+        if (!itineraryToRemove) {
+            throw Error("these subevent details do not exist");
         }
 
-        await this.detailsRepository.remove(detailsToRemove);
+        await this.itineraryRepository.remove(itineraryToRemove);
 
-        return "event details have been removed";
+        return "subevent details have been removed";
     }
 }
