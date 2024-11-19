@@ -5,6 +5,8 @@ import * as request from "supertest";
 
 let connection, server;
 
+// NOTE: work in progress; not finished
+
 const testEvent = {
    eventName: "Launch Party!",
    eventDate: "2024-01-01",

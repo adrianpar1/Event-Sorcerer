@@ -5,9 +5,11 @@ export class EventDetails {
    @Column()
    eventName: string;
 
+   // determine if format needs to be changed later
    @Column()
    eventDate: date;
 
+   // determine if format needs to be changed later
    @Column()
    eventTime: time;
 
@@ -20,9 +22,11 @@ export class EventDetails {
    @Column()
    rsvpLink: string;
 
+   // determine if format needs to be changed later
    @Column()
    rsvpDueDate: date;
 
+   // determine if format needs to be changed later
    @Column()
    rsvpDueTime: time;
 

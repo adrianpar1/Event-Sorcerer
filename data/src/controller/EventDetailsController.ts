@@ -23,8 +23,15 @@ export class EventDetailsController {
    }
 
    async save(request: Request, response: Response, next: NextFunction) {
-      const { eventName, eventDate, eventTime, eventLocation, eventDescription,
-              rsvpLink, rsvpDueDate, rsvpDueTime
+      const {
+         eventName,
+         eventDate,
+         eventTime,
+         eventLocation,
+         eventDescription,
+         rsvpLink,
+         rsvpDueDate,
+         rsvpDueTime
        } = request.body;
 
       const details = Object.assign(new EventDetails(), {
