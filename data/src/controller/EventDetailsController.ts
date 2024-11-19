@@ -12,14 +12,14 @@ export class EventDetailsController {
    async one(request: Request, response: Response, next: NextFunction) {
       const id = parseInt(request.params.id);
 
-      const user = await this.detailsRepository.findOne({
+      const details = await this.detailsRepository.findOne({
          where: { id },
       });
 
-      if (!user) {
-         return "unregistered user";
+      if (!details) {
+         return "no event details found";
       }
-      return user;
+      return details;
    }
 
    async save(request: Request, response: Response, next: NextFunction) {
@@ -44,14 +44,14 @@ export class EventDetailsController {
    async remove(request: Request, response: Response, next: NextFunction) {
       const id = parseInt(request.params.id);
 
-      let eventToRemove = await this.detailsRepository.findOneBy({ id });
+      let detailsToRemove = await this.detailsRepository.findOneBy({ id });
 
-      if (!eventToRemove) {
-         throw Error("this event does not exist");
+      if (!detailsToRemove) {
+         throw Error("these event details do not exist");
       }
 
-      await this.detailsRepository.remove(eventToRemove);
+      await this.detailsRepository.remove(detailsToRemove);
 
-      return "event has been removed";
+      return "event details have been removed";
    }
 }
