@@ -1,16 +1,29 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
+   @Column({ unique: true })
+   username: string;
+
+   @Column({ select: false })
+   password: string;
+
+   // figure out password hashing mechanism later
    @Column()
-   firstName: string;
+   hashedPassword: string;
 
    @Column()
-   lastName: string;
+   email: string;
 
    @Column()
-   age: number;
+   role: string;
+
+   @Column()
+   company: string;
 
    @PrimaryGeneratedColumn()
    id: number;
+
+   @UpdateDateColumn()
+   lastLogin: timestamp;
 }

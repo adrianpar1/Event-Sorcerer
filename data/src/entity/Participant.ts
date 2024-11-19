@@ -15,7 +15,7 @@ export class Participant {
    @Column()
    phone: string;
 
-   @Column()
+   @Column({ unique: true })
    username: string;
 
    @Column()
