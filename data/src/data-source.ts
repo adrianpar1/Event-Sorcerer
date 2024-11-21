@@ -1,6 +1,5 @@
-import "reflect-metadata"
-import { DataSource } from "typeorm"
-import { User } from "./entity/User"
+import "reflect-metadata";
+import { DataSource } from "typeorm";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -11,7 +10,7 @@ export const AppDataSource = new DataSource({
     database: "event_sorcerer",
     synchronize: true,
     logging: false,
-    entities: [User],
+    entities: ["src/entity/*.ts"],
     migrations: [],
     subscribers: [],
-})
+});

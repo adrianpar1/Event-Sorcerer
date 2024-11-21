@@ -46,21 +46,21 @@ export const Routes = [
     // Participant routes ("/participants")
     {
         method: "get",
-        route: "/participants",
+        route: "/participant",
         controller: ParticipantController,
         action: "all",
         validation: [],
     },
     {
         method: "get",
-        route: "/participants/:id",
+        route: "/participant/:id",
         controller: ParticipantController,
         action: "one",
         validation: [param("id").isInt()],
     },
     {
         method: "post",
-        route: "/participants",
+        route: "/participant",
         controller: ParticipantController,
         action: "save",
         validation: [
@@ -74,7 +74,7 @@ export const Routes = [
     },
     {
         method: "delete",
-        route: "/participants/:id",
+        route: "/participant/:id",
         controller: ParticipantController,
         action: "remove",
         validation: [param("id").isInt()],
@@ -117,24 +117,24 @@ export const Routes = [
         action: "remove",
         validation: [param("id").isInt()],
     },
-    // User routes ("/users")
+    // User routes ("/user")
     {
         method: "get",
-        route: "/users",
+        route: "/user",
         controller: UserController,
         action: "all",
         validation: [],
     },
     {
         method: "get",
-        route: "/users/:id",
+        route: "/user/:id",
         controller: UserController,
         action: "one",
         validation: [param("id").isInt()],
     },
     {
         method: "post",
-        route: "/users",
+        route: "/user",
         controller: UserController,
         action: "save",
         validation: [
@@ -148,7 +148,7 @@ export const Routes = [
     },
     {
         method: "delete",
-        route: "/users/:id",
+        route: "/user/:id",
         controller: UserController,
         action: "remove",
         validation: [param("id").isInt()],

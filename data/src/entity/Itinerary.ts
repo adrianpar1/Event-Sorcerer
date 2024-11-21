@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column } from "typeorm";
 
 @Entity()
 export class Itinerary {
@@ -6,12 +6,12 @@ export class Itinerary {
     subeventName: string;
 
     // determine if format needs to be changed later
-    @Column()
-    subeventDate: date;
+    @Column({ type: "date" })
+    subeventDate: Date;
 
     // determine if format needs to be changed later
-    @Column()
-    subeventTime: time;
+    @Column({ type: "time" })
+    subeventTime: Date;
 
     @Column()
     subeventPoc: string;

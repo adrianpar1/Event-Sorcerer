@@ -10,10 +10,10 @@ export class ItineraryController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id);
+        const subeventOrder = parseInt(request.params.subeventOrder);
 
         const itinerary = await this.itineraryRepository.findOne({
-            where: { id },
+            where: { subeventOrder },
         });
 
         if (!itinerary) {
@@ -45,10 +45,10 @@ export class ItineraryController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id);
+        const subeventOrder = parseInt(request.params.subeventOrder);
 
         let itineraryToRemove = await this.itineraryRepository.findOneBy({
-            id,
+            subeventOrder,
         });
 
         if (!itineraryToRemove) {

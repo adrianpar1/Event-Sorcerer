@@ -6,9 +6,12 @@ import * as request from "supertest";
 let connection, server;
 
 const testUser = {
-    firstName: "John",
-    lastName: "Doe",
-    age: 20,
+    username: "test1234",
+    password: "pleaseihopethisworks",
+    hashedPassword: "gewhu239kjl23gy8",
+    email: "test@gmail.com",
+    role: "QA Tester",
+    company: "RB's Lovers",
 };
 
 beforeEach(async () => {

@@ -2,34 +2,34 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 export class EventDetails {
-   @Column()
-   eventName: string;
+    @Column()
+    eventName: string;
 
-   // determine if format needs to be changed later
-   @Column()
-   eventDate: date;
+    // determine if format needs to be changed later
+    @Column({ type: "date" })
+    eventDate: Date;
 
-   // determine if format needs to be changed later
-   @Column()
-   eventTime: time;
+    // determine if format needs to be changed later
+    @Column({ type: "time" })
+    eventTime: Date;
 
-   @Column()
-   eventLocation: string;
+    @Column()
+    eventLocation: string;
 
-   @Column()
-   eventDescription: string;
+    @Column()
+    eventDescription: string;
 
-   @Column()
-   rsvpLink: string;
+    @Column()
+    rsvpLink: string;
 
-   // determine if format needs to be changed later
-   @Column()
-   rsvpDueDate: date;
+    // determine if format needs to be changed later
+    @Column({ type: "date" })
+    rsvpDueDate: Date;
 
-   // determine if format needs to be changed later
-   @Column()
-   rsvpDueTime: time;
+    // determine if format needs to be changed later
+    @Column({ type: "time" })
+    rsvpDueTime: Date;
 
-   @PrimaryGeneratedColumn()
-   id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 }
