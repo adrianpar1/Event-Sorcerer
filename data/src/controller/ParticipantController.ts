@@ -29,7 +29,9 @@ export class ParticipantController {
          email,
          phone,
          username,
-         admin
+         admin,
+         eventId,
+         id,
       } = request.body;
 
       const participant = Object.assign(new Participant(), {
@@ -39,6 +41,8 @@ export class ParticipantController {
          phone,
          username,
          admin,
+         eventId,
+         id,
       });
 
       return this.participantsRepository.save(participant);

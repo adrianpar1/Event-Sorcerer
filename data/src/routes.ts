@@ -70,6 +70,7 @@ export const Routes = [
             body("phone").isString(),
             body("username").isString(),
             body("admin").isBoolean(),
+            body("eventId").isInt(),
         ],
     },
     {

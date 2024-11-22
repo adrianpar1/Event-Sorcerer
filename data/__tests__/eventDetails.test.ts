@@ -1,7 +1,7 @@
 import { clear } from "console";
-import app from "../../src/app";
-import { port } from "../../src/config";
-import { AppDataSource } from "../../src/data-source";
+import app from "../src/app";
+import { port } from "../src/config";
+import { AppDataSource } from "../src/data-source";
 import * as request from "supertest";
 
 // NOTE: work in progress; not finished
