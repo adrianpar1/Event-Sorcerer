@@ -140,7 +140,7 @@ export const Routes = [
         validation: [
             body("username").isString(),
             body("password").isString(),
-            body("hashedPasssword").isString(),
+            body("hashedPassword").isString(),
             body("email").isString(),
             body("role").isString(),
             body("company").isString(),

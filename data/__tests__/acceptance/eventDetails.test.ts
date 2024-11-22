@@ -3,7 +3,6 @@ import app from "../../src/app";
 import { port } from "../../src/config";
 import { AppDataSource } from "../../src/data-source";
 import * as request from "supertest";
-import { EventDetailsController } from "../../src/controller/EventDetailsController";
 
 // NOTE: work in progress; not finished
 
@@ -33,7 +32,7 @@ afterEach(() => {
 
 describe("EventDetails Tests", () => {
     // PASSED
-    it("should be connecting", async () => {
+    it("should connect", async () => {
         const response = await request(app).get("/event");
         expect(response.statusCode).toBe(200);
     });
