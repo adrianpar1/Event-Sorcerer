@@ -102,7 +102,6 @@ export const Routes = [
         validation: [
             body("subeventName").isString(),
             body("subeventDate").isDate({ format: "YYYY-MM-DD" }),
-            body("email").isString(),
             body("subeventTime").isTime({ mode: "withSeconds" }),
             body("subeventPoc").isString(),
             body("subeventDescription").isString(),

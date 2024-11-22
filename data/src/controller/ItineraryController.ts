@@ -29,6 +29,7 @@ export class ItineraryController {
             subeventTime,
             subeventPoc,
             subeventDescription,
+            eventId,
             subeventOrder,
         } = request.body;
 
@@ -38,6 +39,7 @@ export class ItineraryController {
             subeventTime,
             subeventPoc,
             subeventDescription,
+            eventId,
             subeventOrder,
         });
 

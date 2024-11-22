@@ -28,7 +28,7 @@ afterEach(() => {
 describe("User Tests", () => {
     // PASSED
     it("should connect", async () => {
-        const response = await request(app).get("/event");
+        const response = await request(app).get("/user");
         expect(response.statusCode).toBe(200);
     });
     
