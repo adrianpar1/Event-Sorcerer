@@ -54,7 +54,7 @@ export class ItineraryController {
         });
 
         if (!itineraryToRemove) {
-            throw Error("these subevent details do not exist");
+            return "these subevent details do not exist";
         }
 
         await this.itineraryRepository.remove(itineraryToRemove);

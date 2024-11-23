@@ -23,22 +23,16 @@ export class UserController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const {
+        const { username, password, hashedPassword, email, role, company } =
+            request.body;
+
+        const user = Object.assign(new User(), {
             username,
             password,
             hashedPassword,
             email,
             role,
-            company
-        } = request.body;
-
-        const user = Object.assign(new User(), {
-           username,
-           password,
-           hashedPassword,
-           email,
-           role,
-           company
+            company,
         });
 
         return this.userRepository.save(user);
@@ -50,7 +44,7 @@ export class UserController {
         let userToRemove = await this.userRepository.findOneBy({ id });
 
         if (!userToRemove) {
-            throw Error("this user does not exist");
+            return "this user does not exist";
         }
 
         await this.userRepository.remove(userToRemove);
