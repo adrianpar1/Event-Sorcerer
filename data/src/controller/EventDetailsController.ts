@@ -54,7 +54,7 @@ export class EventDetailsController {
         let detailsToRemove = await this.detailsRepository.findOneBy({ id });
 
         if (!detailsToRemove) {
-            throw Error("these event details do not exist");
+            return "these event details do not exist";
         }
 
         await this.detailsRepository.remove(detailsToRemove);
