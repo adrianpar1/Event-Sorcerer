@@ -31,9 +31,13 @@ export const Routes = [
             body("eventTime").isTime({ mode: "withSeconds" }),
             body("eventLocation").isString(),
             body("eventDescription").isString(),
-            body("rsvpLink").isString(),
-            body("rsvpDueDate").isDate({ format: "YYYY-MM-DD" }),
-            body("rsvpDueTime").isTime({ mode: "withSeconds" }),
+            body("rsvpLink").optional({ nullable: true }).isString(),
+            body("rsvpDueDate")
+                .optional({ nullable: true })
+                .isDate({ format: "YYYY-MM-DD" }),
+            body("rsvpDueTime")
+                .optional({ nullable: true })
+                .isTime({ mode: "withSeconds" }),
         ],
     },
     {

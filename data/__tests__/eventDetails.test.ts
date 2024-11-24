@@ -19,6 +19,17 @@ const testEvent = {
     rsvpDueTime: "23:59:59",
 };
 
+const testEvent2 = {
+    eventName: "Class Final",
+    eventDate: "2024-12-17",
+    eventTime: "12:23:04",
+    eventLocation: "Duncan Hall 318",
+    eventDescription: "Final exam for our class",
+    rsvpLink: null,
+    rsvpDueDate: null,
+    rsvpDueTime: null,
+};
+
 beforeEach(async () => {
     connection = await AppDataSource.initialize();
     await connection.synchronize(true);
@@ -165,7 +176,7 @@ describe("EventDetails Tests", () => {
         });
 
         // PASSED
-        it("should not create an event if no rsvpLink is given", async () => {
+        it("should create an event if no rsvpLink is given", async () => {
             const response = await request(app).post("/event").send({
                 eventName: "Launch Party!",
                 eventDate: "2024-01-01",
@@ -174,20 +185,25 @@ describe("EventDetails Tests", () => {
                 eventDescription: "Launch party for Event Sorcerer!",
                 rsvpDueDate: "2024-01-03",
                 rsvpDueTime: "23:59:59",
+                id: 1,
             });
-            expect(response.statusCode).toBe(400);
-            expect(response.body.errors).not.toBeNull();
-            expect(response.body.errors.length).toBe(1);
-            expect(response.body.errors[0]).toEqual({
-                msg: "Invalid value",
-                path: "rsvpLink",
-                location: "body",
-                type: "field",
+
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: null,
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+                id: 1,
             });
         });
 
         // PASSED
-        it("should not create an event if no rsvpDueDate is given", async () => {
+        it("should create an event if no rsvpDueDate is given", async () => {
             const response = await request(app).post("/event").send({
                 eventName: "Launch Party!",
                 eventDate: "2024-01-01",
@@ -197,19 +213,23 @@ describe("EventDetails Tests", () => {
                 rsvpLink: "https://fakenews.com",
                 rsvpDueTime: "23:59:59",
             });
-            expect(response.statusCode).toBe(400);
-            expect(response.body.errors).not.toBeNull();
-            expect(response.body.errors.length).toBe(1);
-            expect(response.body.errors[0]).toEqual({
-                msg: "Invalid value",
-                path: "rsvpDueDate",
-                location: "body",
-                type: "field",
+
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: null,
+                rsvpDueTime: "23:59:59",
+                id: 1,
             });
         });
 
         // PASSED
-        it("should not create an event if no rsvpDueTime is given", async () => {
+        it("should  create an event if no rsvpDueTime is given", async () => {
             const response = await request(app).post("/event").send({
                 eventName: "Launch Party!",
                 eventDate: "2024-01-01",
@@ -219,15 +239,54 @@ describe("EventDetails Tests", () => {
                 rsvpLink: "https://fakenews.com",
                 rsvpDueDate: "2024-01-03",
             });
-            expect(response.statusCode).toBe(400);
-            expect(response.body.errors).not.toBeNull();
-            expect(response.body.errors.length).toBe(1);
-            expect(response.body.errors[0]).toEqual({
-                msg: "Invalid value",
-                path: "rsvpDueTime",
-                location: "body",
-                type: "field",
+
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: null,
+                id: 1,
             });
+        });
+    });
+
+    describe("Retreival", () => {
+        // PASSED
+        it("should get all eventDetails", async () => {
+            await request(app).post("/event").send(testEvent);
+            await request(app).post("/event").send(testEvent2);
+
+            const response = await request(app).get("/event");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual([
+                { ...testEvent, id: 1 },
+                { ...testEvent2, id: 2 },
+            ]);
+        });
+
+        // PASSED
+        it("should get the eventDetails for the specified index", async () => {
+            await request(app).post("/event").send(testEvent);
+            await request(app).post("/event").send(testEvent2);
+
+            const response = await request(app).get("/event/2");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({ ...testEvent2, id: 2 });
+        });
+
+        // PASSED
+        it("should not get the eventDetails due to an invalid index", async () => {
+            await request(app).post("/event").send(testEvent);
+            await request(app).post("/event").send(testEvent2);
+
+            const response = await request(app).get("/event/10");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual("no event details found");
         });
     });
 

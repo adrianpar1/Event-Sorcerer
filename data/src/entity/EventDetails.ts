@@ -19,15 +19,15 @@ export class EventDetails {
     @Column()
     eventDescription: string;
 
-    @Column()
+    @Column({ nullable: true })
     rsvpLink: string;
 
     // determine if format needs to be changed later
-    @Column({ type: "date" })
+    @Column({ type: "date", nullable: true })
     rsvpDueDate: Date;
 
     // determine if format needs to be changed later
-    @Column({ type: "time" })
+    @Column({ type: "time", nullable: true })
     rsvpDueTime: Date;
 
     @PrimaryGeneratedColumn()
