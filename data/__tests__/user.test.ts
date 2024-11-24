@@ -171,7 +171,7 @@ describe("User Tests", () => {
     });
 
     describe("Updates", () => {
-        //
+        // PASSED
         it("should update the specified user's username", async () => {
             await request(app).post("/user").send(testUser);
 
@@ -189,7 +189,7 @@ describe("User Tests", () => {
             });
         });
 
-        //
+        // PASSED
         it("should update the specified user's password", async () => {
             await request(app).post("/user").send(testUser);
 
@@ -207,7 +207,7 @@ describe("User Tests", () => {
             });
         });
 
-        //
+        // PASSED
         it("should update the specified user's hashedPassword", async () => {
             await request(app).post("/user").send(testUser);
 
@@ -225,7 +225,7 @@ describe("User Tests", () => {
             });
         });
 
-        //
+        // PASSED
         it("should update the specified user's email", async () => {
             await request(app).post("/user").send(testUser);
 
@@ -243,7 +243,7 @@ describe("User Tests", () => {
             });
         });
 
-        //
+        // PASSED
         it("should update the specified user's role", async () => {
             await request(app).post("/user").send(testUser);
 
@@ -261,7 +261,7 @@ describe("User Tests", () => {
             });
         });
 
-        //
+        // PASSED
         it("should update the specified user's company", async () => {
             await request(app).post("/user").send(testUser);
 
@@ -279,7 +279,7 @@ describe("User Tests", () => {
             });
         });
 
-        //
+        // PASSED
         it("should not update a user due to an invalid index", async () => {
             await request(app).post("/user").send(testUser);
 
@@ -288,6 +288,17 @@ describe("User Tests", () => {
             });
             expect(response.statusCode).toBe(200);
             expect(response.body).toEqual("this user does not exist");
+        });
+
+        // PASSED
+        it("should not update an event due to an invalid field", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/1").send({
+                usernme: "update5678",
+            });
+            expect(response.statusCode).toBe(500);
+            expect(response.body).toEqual({});
         });
     });
 

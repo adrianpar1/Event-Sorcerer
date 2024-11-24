@@ -351,6 +351,17 @@ describe("Itinerary Tests", () => {
             expect(response.statusCode).toBe(200);
             expect(response.body).toEqual("this subevent does not exist");
         });
+
+        // PASSED
+        it("should not update a subevent due to an invalid field", async () => {
+            await request(app).post("/itinerary").send(testSubevent);
+
+            const response = await request(app).patch("/itinerary/1").send({
+                subeventNme: "Not going to class",
+            });
+            expect(response.statusCode).toBe(500);
+            expect(response.body).toEqual({});
+        });
     });
 
     describe("Deletion", () => {

@@ -410,6 +410,17 @@ describe("EventDetails Tests", () => {
             expect(response.statusCode).toBe(200);
             expect(response.body).toEqual("these event details do not exist");
         });
+
+        // PASSED
+        it("should not update an event due to an invalid field", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                eventNme: "Update Successful!",
+            });
+            expect(response.statusCode).toBe(500);
+            expect(response.body).toEqual({});
+        });
     });
 
     describe("Deletion", () => {

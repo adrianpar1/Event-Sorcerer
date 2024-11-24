@@ -376,6 +376,19 @@ describe("Participant Tests", () => {
                     "this participant does not exist"
                 );
             });
+
+            // PASSED
+            it("should not update an event due to an invalid field", async () => {
+                await request(app).post("/participant").send(testParticipant);
+
+                const response = await request(app)
+                    .patch("/participant/1")
+                    .send({
+                        firstNme: "Adam",
+                    });
+                expect(response.statusCode).toBe(500);
+                expect(response.body).toEqual({});
+            });
         });
 
         describe("Deletion", () => {
