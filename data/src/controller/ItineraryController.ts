@@ -47,18 +47,18 @@ export class ItineraryController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        const subeventOrder = parseInt(request.params.subeventOrder);
+        const subeventOrder = parseInt(request.params.id);
 
         let itineraryToRemove = await this.itineraryRepository.findOneBy({
             subeventOrder,
         });
 
         if (!itineraryToRemove) {
-            return "these subevent details do not exist";
+            return "this subevent does not exist";
         }
 
         await this.itineraryRepository.remove(itineraryToRemove);
 
-        return "subevent details have been removed";
+        return "subevent has been removed";
     }
 }

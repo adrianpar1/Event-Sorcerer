@@ -201,8 +201,7 @@ describe("Itinerary Tests", () => {
     });
 
     describe("Deletion", () => {
-        // FAILED - expected 200 (OK) status code, received 500 (server error) status code
-        // possibly check subeventOrder indexing
+        // PASSED
         it("should delete a subevent", async () => {
             await request(app).post("/itinerary").send({
                 subeventName: "Attend class",
@@ -219,8 +218,7 @@ describe("Itinerary Tests", () => {
             expect(response.body).toEqual("subevent has been removed");
         });
 
-        // FAILED - expected 200 (OK) status code, received 500 (server error) status code
-        // possibly check subeventOrder indexing
+        // PASSED
         it("should not delete a subevent due to an invalid index", async () => {
             await request(app).post("/itinerary").send({
                 subeventName: "Attend class",
@@ -234,9 +232,7 @@ describe("Itinerary Tests", () => {
 
             const response = await request(app).delete("/itinerary/10");
             expect(response.statusCode).toBe(200);
-            expect(response.body).toEqual(
-                "these subevent details do not exist"
-            );
+            expect(response.body).toEqual("this subevent does not exist");
         });
     });
 });
