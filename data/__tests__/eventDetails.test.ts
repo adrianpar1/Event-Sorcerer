@@ -432,3 +432,5 @@ describe("EventDetails Tests", () => {
         });
     });
 });
+
+// ADD Retrieval (GET) tests

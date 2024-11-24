@@ -3,16 +3,16 @@ import { NextFunction, Request, Response } from "express";
 import { Participant } from "../entity/Participant";
 
 export class ParticipantController {
-    private participantsRepository = AppDataSource.getRepository(Participant);
+    private participantRespository = AppDataSource.getRepository(Participant);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.participantsRepository.find();
+        return this.participantRespository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const participant = await this.participantsRepository.findOne({
+        const participant = await this.participantRespository.findOne({
             where: { id },
         });
 
@@ -45,13 +45,32 @@ export class ParticipantController {
             id,
         });
 
-        return this.participantsRepository.save(participant);
+        return this.participantRespository.save(participant);
+    }
+
+    async update(request: Request, response: Response, next: NextFunction) {
+        const id = parseInt(request.params.id);
+        const body = request.body;
+
+        let existingDetails = await this.participantRespository.findOneBy({
+            id,
+        });
+
+        if (!existingDetails) {
+            return "this participant does not exist";
+        }
+
+        await this.participantRespository.update(id, body);
+
+        let newDetails = await this.participantRespository.findOneBy({ id });
+
+        return newDetails;
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        let participantToRemove = await this.participantsRepository.findOneBy({
+        let participantToRemove = await this.participantRespository.findOneBy({
             id,
         });
 
@@ -59,7 +78,7 @@ export class ParticipantController {
             return "this participant does not exist";
         }
 
-        await this.participantsRepository.remove(participantToRemove);
+        await this.participantRespository.remove(participantToRemove);
 
         return "participant has been removed";
     }
