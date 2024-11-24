@@ -37,6 +37,13 @@ export const Routes = [
         ],
     },
     {
+        method: "patch",
+        route: "/event/:id",
+        controller: EventDetailsController,
+        action: "update",
+        validation: [param("id").isInt()],
+    },
+    {
         method: "delete",
         route: "/event/:id",
         controller: EventDetailsController,
@@ -72,6 +79,13 @@ export const Routes = [
             body("admin").isBoolean(),
             body("eventId").isInt(),
         ],
+    },
+    {
+        method: "patch",
+        route: "/participant/:id",
+        controller: ParticipantController,
+        action: "update",
+        validation: [param("id").isInt()],
     },
     {
         method: "delete",
@@ -111,6 +125,13 @@ export const Routes = [
         ],
     },
     {
+        method: "patch",
+        route: "/itinerary/:id",
+        controller: ItineraryController,
+        action: "update",
+        validation: [param("id").isInt()],
+    },
+    {
         method: "delete",
         route: "/itinerary/:id",
         controller: ItineraryController,
@@ -145,6 +166,13 @@ export const Routes = [
             body("role").isString(),
             body("company").isString(),
         ],
+    },
+    {
+        method: "patch",
+        route: "/user/:id",
+        controller: UserController,
+        action: "update",
+        validation: [param("id").isInt()],
     },
     {
         method: "delete",

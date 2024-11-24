@@ -48,6 +48,23 @@ export class EventDetailsController {
         return this.detailsRepository.save(details);
     }
 
+    async update(request: Request, response: Response, next: NextFunction) {
+        const id = parseInt(request.params.id);
+        const body = request.body;
+
+        let existingDetails = await this.detailsRepository.findOneBy({ id });
+
+        if (!existingDetails) {
+            return "these event details do not exist";
+        }
+
+        await this.detailsRepository.update(id, body);
+
+        let newDetails = await this.detailsRepository.findOneBy({ id });
+
+        return newDetails;
+    }
+
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 

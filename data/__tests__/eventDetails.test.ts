@@ -231,37 +231,58 @@ describe("EventDetails Tests", () => {
         });
     });
 
-    // describe("Updates", () => {
-    //     //
-    //     it("should update the specified event's eventName", async () => {
-    //         await request(app).post("/event").send({
-    //             eventName: "Launch Party!",
-    //             eventDate: "2024-01-01",
-    //             eventTime: "21:21:59",
-    //             eventLocation: "Duncan Hall 318",
-    //             eventDescription: "Launch party for Event Sorcerer!",
-    //             rsvpLink: "https://fakenews.com",
-    //             rsvpDueDate: "2024-01-03",
-    //             rsvpDueTime: "23:59:59",
-    //         });
+    describe("Updates", () => {
+        // PASSED
+        it("should update the specified event's eventName", async () => {
+            const orig = await request(app).post("/event").send({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+            });
+            console.log(orig.body);
 
-    //         const response = await request(app).patch("/event").send({
-    //             eventName: "Update Successful!",
-    //         });
-    //         expect(response.statusCode).toBe(200);
-    //         expect(response.body).toEqual({
-    //             eventName: "Update Successful!",
-    //             eventDate: "2024-01-01",
-    //             eventTime: "21:21:59",
-    //             eventLocation: "Duncan Hall 318",
-    //             eventDescription: "Launch party for Event Sorcerer!",
-    //             rsvpLink: "https://fakenews.com",
-    //             rsvpDueDate: "2024-01-03",
-    //             rsvpDueTime: "23:59:59",
-    //             id: 1,
-    //         });
-    //     });
-    // });
+            const response = await request(app).patch("/event/1").send({
+                eventName: "Update Successful!",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Update Successful!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should not update an event due to an invalid index", async () => {
+            await request(app).post("/event").send({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+            });
+
+            const response = await request(app).patch("/event/10").send({
+                eventName: "Update Successful!",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual("these event details do not exist");
+        });
+    });
 
     describe("Deletion", () => {
         // PASSED
