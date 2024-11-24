@@ -170,17 +170,131 @@ describe("User Tests", () => {
         });
     });
 
-    describe("Deletion", () => {
-        // PASSED
-        it("should delete a user", async () => {
-            await request(app).post("/user").send({
-                username: "test1234",
-                password: "pleaseihopethisworks",
+    describe("Updates", () => {
+        //
+        it("should update the specified user's username", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/1").send({
+                username: "update5678",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject({
+                username: "update5678",
                 hashedPassword: "gewhu239kjl23gy8",
                 email: "test@gmail.com",
                 role: "QA Tester",
                 company: "RB's Lovers",
+                id: 1,
             });
+        });
+
+        //
+        it("should update the specified user's password", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/1").send({
+                password: "thisisworkingnow",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject({
+                username: "test1234",
+                hashedPassword: "gewhu239kjl23gy8",
+                email: "test@gmail.com",
+                role: "QA Tester",
+                company: "RB's Lovers",
+                id: 1,
+            });
+        });
+
+        //
+        it("should update the specified user's hashedPassword", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/1").send({
+                hashedPassword: "safhiufh2hfdjakl842asd1",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject({
+                username: "test1234",
+                hashedPassword: "safhiufh2hfdjakl842asd1",
+                email: "test@gmail.com",
+                role: "QA Tester",
+                company: "RB's Lovers",
+                id: 1,
+            });
+        });
+
+        //
+        it("should update the specified user's email", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/1").send({
+                email: "success@gmail.com",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject({
+                username: "test1234",
+                hashedPassword: "gewhu239kjl23gy8",
+                email: "success@gmail.com",
+                role: "QA Tester",
+                company: "RB's Lovers",
+                id: 1,
+            });
+        });
+
+        //
+        it("should update the specified user's role", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/1").send({
+                role: "Software Developer",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject({
+                username: "test1234",
+                hashedPassword: "gewhu239kjl23gy8",
+                email: "test@gmail.com",
+                role: "Software Developer",
+                company: "RB's Lovers",
+                id: 1,
+            });
+        });
+
+        //
+        it("should update the specified user's company", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/1").send({
+                company: "Kaliski's Kings",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject({
+                username: "test1234",
+                hashedPassword: "gewhu239kjl23gy8",
+                email: "test@gmail.com",
+                role: "QA Tester",
+                company: "Kaliski's Kings",
+                id: 1,
+            });
+        });
+
+        //
+        it("should not update a user due to an invalid index", async () => {
+            await request(app).post("/user").send(testUser);
+
+            const response = await request(app).patch("/user/10").send({
+                username: "update5678",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual("this user does not exist");
+        });
+    });
+
+    describe("Deletion", () => {
+        // PASSED
+        it("should delete a user", async () => {
+            await request(app).post("/user").send(testUser);
 
             const response = await request(app).delete("/user/1");
             expect(response.statusCode).toBe(200);
@@ -189,14 +303,7 @@ describe("User Tests", () => {
 
         // PASSED
         it("should not delete a user due to an invalid index", async () => {
-            await request(app).post("/user").send({
-                username: "test1234",
-                password: "pleaseihopethisworks",
-                hashedPassword: "gewhu239kjl23gy8",
-                email: "test@gmail.com",
-                role: "QA Tester",
-                company: "RB's Lovers",
-            });
+            await request(app).post("/user").send(testUser);
 
             const response = await request(app).delete("/user/10");
             expect(response.statusCode).toBe(200);

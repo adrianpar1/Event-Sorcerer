@@ -369,7 +369,7 @@ describe("Participant Tests", () => {
                 const response = await request(app)
                     .patch("/participant/10")
                     .send({
-                        subeventName: "Not going to class",
+                        firstName: "Adam",
                     });
                 expect(response.statusCode).toBe(200);
                 expect(response.body).toEqual(

@@ -38,6 +38,23 @@ export class UserController {
         return this.userRepository.save(user);
     }
 
+    async update(request: Request, response: Response, next: NextFunction) {
+        const id = parseInt(request.params.id);
+        const body = request.body;
+
+        let existingDetails = await this.userRepository.findOneBy({ id });
+
+        if (!existingDetails) {
+            return "this user does not exist";
+        }
+
+        await this.userRepository.update(id, body);
+
+        let newDetails = await this.userRepository.findOneBy({ id });
+
+        return newDetails;
+    }
+
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
