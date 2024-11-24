@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Itinerary {
@@ -22,6 +22,9 @@ export class Itinerary {
     @Column()
     eventId: number;
 
-    @PrimaryColumn()
+    @Column()
     subeventOrder: number;
+
+    @PrimaryGeneratedColumn()
+    id: number;
 }

@@ -10,7 +10,7 @@ export class ItineraryController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        const subeventOrder = parseInt(request.params.subeventOrder);
+        const subeventOrder = parseInt(request.params.id);
 
         const itinerary = await this.itineraryRepository.findOne({
             where: { subeventOrder },
@@ -19,6 +19,7 @@ export class ItineraryController {
         if (!itinerary) {
             return "no subevent details found";
         }
+
         return itinerary;
     }
 
@@ -46,11 +47,29 @@ export class ItineraryController {
         return this.itineraryRepository.save(itinerary);
     }
 
+    async update(request: Request, response: Response, next: NextFunction) {
+        let id = parseInt(request.params.id);
+        const body = request.body;
+
+        let existingSubevent = await this.itineraryRepository.findOneBy({ id });
+
+        if (!existingSubevent) {
+            return "this subevent does not exist";
+        }
+
+        await this.itineraryRepository.update(id, body);
+        id = parseInt(request.params.id);
+
+        let newSubevent = await this.itineraryRepository.findOneBy({ id });
+
+        return newSubevent;
+    }
+
     async remove(request: Request, response: Response, next: NextFunction) {
-        const subeventOrder = parseInt(request.params.id);
+        const id = parseInt(request.params.id);
 
         let itineraryToRemove = await this.itineraryRepository.findOneBy({
-            subeventOrder,
+            id,
         });
 
         if (!itineraryToRemove) {
