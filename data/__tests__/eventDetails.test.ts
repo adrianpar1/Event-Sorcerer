@@ -234,17 +234,7 @@ describe("EventDetails Tests", () => {
     describe("Updates", () => {
         // PASSED
         it("should update the specified event's eventName", async () => {
-            const orig = await request(app).post("/event").send({
-                eventName: "Launch Party!",
-                eventDate: "2024-01-01",
-                eventTime: "21:21:59",
-                eventLocation: "Duncan Hall 318",
-                eventDescription: "Launch party for Event Sorcerer!",
-                rsvpLink: "https://fakenews.com",
-                rsvpDueDate: "2024-01-03",
-                rsvpDueTime: "23:59:59",
-            });
-            console.log(orig.body);
+            await request(app).post("/event").send(testEvent);
 
             const response = await request(app).patch("/event/1").send({
                 eventName: "Update Successful!",
@@ -264,8 +254,140 @@ describe("EventDetails Tests", () => {
         });
 
         // PASSED
-        it("should not update an event due to an invalid index", async () => {
-            await request(app).post("/event").send({
+        it("should update the specified event's eventDate", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                eventDate: "2024-04-01",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-04-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should update the specified event's eventTime", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                eventTime: "10:30:30",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "10:30:30",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should update the specified event's eventLocation", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                eventLocation: "Tower Lawn",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Tower Lawn",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should update the specified event's eventDescription", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                eventDescription: "We're finally launching the app!",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "We're finally launching the app!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should update the specified event's rsvpLink", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                rsvpLink: "https://notrealnews.com",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://notrealnews.com",
+                rsvpDueDate: "2024-01-03",
+                rsvpDueTime: "23:59:59",
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should update the specified event's rsvpDueDate", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                rsvpDueDate: "2024-02-05",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                eventName: "Launch Party!",
+                eventDate: "2024-01-01",
+                eventTime: "21:21:59",
+                eventLocation: "Duncan Hall 318",
+                eventDescription: "Launch party for Event Sorcerer!",
+                rsvpLink: "https://fakenews.com",
+                rsvpDueDate: "2024-02-05",
+                rsvpDueTime: "23:59:59",
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should update the specified event's rsvpDueTime", async () => {
+            await request(app).post("/event").send(testEvent);
+
+            const response = await request(app).patch("/event/1").send({
+                rsvpDueTime: "01:01:01",
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
                 eventName: "Launch Party!",
                 eventDate: "2024-01-01",
                 eventTime: "21:21:59",
@@ -273,8 +395,14 @@ describe("EventDetails Tests", () => {
                 eventDescription: "Launch party for Event Sorcerer!",
                 rsvpLink: "https://fakenews.com",
                 rsvpDueDate: "2024-01-03",
-                rsvpDueTime: "23:59:59",
+                rsvpDueTime: "01:01:01",
+                id: 1,
             });
+        });
+
+        // PASSED
+        it("should not update an event due to an invalid index", async () => {
+            await request(app).post("/event").send(testEvent);
 
             const response = await request(app).patch("/event/10").send({
                 eventName: "Update Successful!",
@@ -287,16 +415,7 @@ describe("EventDetails Tests", () => {
     describe("Deletion", () => {
         // PASSED
         it("should delete an event", async () => {
-            await request(app).post("/event").send({
-                eventName: "Launch Party!",
-                eventDate: "2024-01-01",
-                eventTime: "21:21:59",
-                eventLocation: "Duncan Hall 318",
-                eventDescription: "Launch party for Event Sorcerer!",
-                rsvpLink: "https://fakenews.com",
-                rsvpDueDate: "2024-01-03",
-                rsvpDueTime: "23:59:59",
-            });
+            await request(app).post("/event").send(testEvent);
 
             const response = await request(app).delete("/event/1");
             expect(response.statusCode).toBe(200);
@@ -305,16 +424,7 @@ describe("EventDetails Tests", () => {
 
         // PASSED
         it("should not delete an event due to an invalid index", async () => {
-            await request(app).post("/event").send({
-                eventName: "Launch Party!",
-                eventDate: "2024-01-01",
-                eventTime: "21:21:59",
-                eventLocation: "Duncan Hall 318",
-                eventDescription: "Launch party for Event Sorcerer!",
-                rsvpLink: "https://fakenews.com",
-                rsvpDueDate: "2024-01-03",
-                rsvpDueTime: "23:59:59",
-            });
+            await request(app).post("/event").send(testEvent);
 
             const response = await request(app).delete("/event/10");
             expect(response.statusCode).toBe(200);
