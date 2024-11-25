@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Itinerary } from "./Itinerary";
+import { Participant } from "./Participant";
 
 @Entity()
 export class EventDetails {
@@ -29,6 +31,12 @@ export class EventDetails {
     // determine if format needs to be changed later
     @Column({ type: "time", nullable: true })
     rsvpDueTime: Date;
+
+    @OneToMany(() => Itinerary, (subevents) => subevents.eventId)
+    subevents: Itinerary[];
+
+    @OneToMany(() => Participant, (participants) => participants.eventId)
+    participants: Participant[];
 
     @PrimaryGeneratedColumn()
     id: number;

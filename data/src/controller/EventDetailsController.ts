@@ -32,6 +32,8 @@ export class EventDetailsController {
             rsvpLink,
             rsvpDueDate,
             rsvpDueTime,
+            subevents,
+            participants,
         } = request.body;
 
         const details = Object.assign(new EventDetails(), {
@@ -43,6 +45,8 @@ export class EventDetailsController {
             rsvpLink,
             rsvpDueDate,
             rsvpDueTime,
+            subevents,
+            participants,
         });
 
         return this.detailsRepository.save(details);

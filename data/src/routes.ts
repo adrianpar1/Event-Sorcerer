@@ -38,6 +38,8 @@ export const Routes = [
             body("rsvpDueTime")
                 .optional({ nullable: true })
                 .isTime({ mode: "withSeconds" }),
+            body("subevents").optional({ nullable: true }),
+            body("participants").optional({ nullable: true }),
         ],
     },
     {

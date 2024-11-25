@@ -1,4 +1,13 @@
-import { Entity, PrimaryColumn, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Entity,
+    PrimaryColumn,
+    Column,
+    PrimaryGeneratedColumn,
+    ManyToMany,
+    ManyToOne,
+    JoinColumn,
+} from "typeorm";
+import { EventDetails } from "./EventDetails";
 
 @Entity()
 export class Itinerary {
@@ -19,7 +28,8 @@ export class Itinerary {
     @Column()
     subeventDescription: string;
 
-    @Column()
+    @ManyToOne(() => EventDetails, (eventId) => eventId.subevents)
+    @JoinColumn({ name: "eventId" })
     eventId: number;
 
     @Column()
