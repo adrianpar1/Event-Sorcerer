@@ -255,7 +255,7 @@ describe("EventDetails Tests", () => {
         });
     });
 
-    describe("Retreival", () => {
+    describe("Retrieval", () => {
         // PASSED
         it("should get all eventDetails", async () => {
             await request(app).post("/event").send(testEvent);

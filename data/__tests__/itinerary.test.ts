@@ -210,7 +210,7 @@ describe("Itinerary Tests", () => {
         });
     });
 
-    describe("Retreival", () => {
+    describe("Retrieval", () => {
         // PASSED
         it("should get all subevents", async () => {
             await request(app).post("/itinerary").send(testSubevent);
@@ -225,7 +225,7 @@ describe("Itinerary Tests", () => {
         });
 
         // PASSED
-        it("should get the subevents for the specified index", async () => {
+        it("should get the subevent at the specified index", async () => {
             await request(app).post("/itinerary").send(testSubevent);
             await request(app).post("/itinerary").send(testSubevent2);
 
@@ -235,7 +235,7 @@ describe("Itinerary Tests", () => {
         });
 
         // PASSED
-        it("should not get the subevents due to an invalid index", async () => {
+        it("should not get the subevent due to an invalid index", async () => {
             await request(app).post("/itinerary").send(testSubevent);
             await request(app).post("/itinerary").send(testSubevent2);
 
