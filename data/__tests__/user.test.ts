@@ -14,6 +14,15 @@ const testUser = {
     company: "RB's Lovers",
 };
 
+const testUser2 = {
+    username: "realUser918",
+    password: "finalstageoftesting",
+    hashedPassword: "asdlk49219vfhb201",
+    email: "username@gmail.com",
+    role: "Project Manager",
+    company: "RB's Lovers",
+};
+
 beforeEach(async () => {
     connection = await AppDataSource.initialize();
     await connection.synchronize(true);
@@ -167,6 +176,62 @@ describe("User Tests", () => {
                 location: "body",
                 type: "field",
             });
+        });
+    });
+
+    describe("Retrieval", () => {
+        // PASSED
+        it("should get all users", async () => {
+            await request(app).post("/user").send(testUser);
+            await request(app).post("/user").send(testUser2);
+
+            const response = await request(app).get("/user");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject([
+                {
+                    username: "test1234",
+                    hashedPassword: "gewhu239kjl23gy8",
+                    email: "test@gmail.com",
+                    role: "QA Tester",
+                    company: "RB's Lovers",
+                    id: 1,
+                },
+                {
+                    username: "realUser918",
+                    hashedPassword: "asdlk49219vfhb201",
+                    email: "username@gmail.com",
+                    role: "Project Manager",
+                    company: "RB's Lovers",
+                    id: 2,
+                },
+            ]);
+        });
+
+        // PASSED
+        it("should get the user for the specified index", async () => {
+            await request(app).post("/user").send(testUser);
+            await request(app).post("/user").send(testUser2);
+
+            const response = await request(app).get("/user/2");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toMatchObject({
+                username: "realUser918",
+                hashedPassword: "asdlk49219vfhb201",
+                email: "username@gmail.com",
+                role: "Project Manager",
+                company: "RB's Lovers",
+                id: 2,
+            });
+        });
+
+        // PASSED
+        it("should not get the user due to an invalid index", async () => {
+            await request(app).post("/user").send(testUser);
+            await request(app).post("/user").send(testUser2);
+
+            const response = await request(app).get("/user/10");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual("unregistered user");
         });
     });
 
