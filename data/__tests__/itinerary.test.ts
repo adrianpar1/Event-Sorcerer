@@ -15,6 +15,16 @@ const testSubevent = {
     subeventOrder: 1,
 };
 
+const testSubevent2 = {
+    subeventName: "Do final presentation",
+    subeventDate: "2024-12-06",
+    subeventTime: "11:15:50",
+    subeventPoc: "Kenrick Doan",
+    subeventDescription: "Present our final project in front of the class.",
+    eventId: 2,
+    subeventOrder: 2,
+};
+
 beforeEach(async () => {
     connection = await AppDataSource.initialize();
     await connection.synchronize(true);
@@ -197,6 +207,41 @@ describe("Itinerary Tests", () => {
                 location: "body",
                 type: "field",
             });
+        });
+    });
+
+    describe("Retreival", () => {
+        // PASSED
+        it("should get all subevents", async () => {
+            await request(app).post("/itinerary").send(testSubevent);
+            await request(app).post("/itinerary").send(testSubevent2);
+
+            const response = await request(app).get("/itinerary");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual([
+                { ...testSubevent, id: 1 },
+                { ...testSubevent2, id: 2 },
+            ]);
+        });
+
+        // PASSED
+        it("should get the subevents for the specified index", async () => {
+            await request(app).post("/itinerary").send(testSubevent);
+            await request(app).post("/itinerary").send(testSubevent2);
+
+            const response = await request(app).get("/itinerary/2");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({ ...testSubevent2, id: 2 });
+        });
+
+        // PASSED
+        it("should not get the subevents due to an invalid index", async () => {
+            await request(app).post("/itinerary").send(testSubevent);
+            await request(app).post("/itinerary").send(testSubevent2);
+
+            const response = await request(app).get("/itinerary/10");
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual("no subevent details found");
         });
     });
 
