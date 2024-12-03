@@ -8,7 +8,7 @@
 
 ## Database Information
 
-### Event Details
+### Event Details ("/event")
 
 This database contains information about individual events. It contains sections such as \
 event information and RSVP information. This database contains Itinerary and Participants.
@@ -28,7 +28,7 @@ EventDetails:
     id: number,                 // this is automatically generated; it should not be initialized
 ```
 
-## Itinerary
+## Itinerary ("/itinerary")
 
 This database contains information about an event's itinerary. It manages subevents that \
 correspond to a larger event. Its parent database is EventDetails.
@@ -47,7 +47,7 @@ Itinerary:
     id: number,                     // this is automatically generated; it should not be initialized
 ```
 
-## Participant
+## Participant ("/participant")
 
 This database contains information about an event's participants. It manages information \
 about the organizers and guests for an event. Its parent database is EventDetails.
@@ -66,7 +66,7 @@ Participant:
     id: number,             // this is automatically generated; it should not be initialized
 ```
 
-## User
+## User ("/user")
 
 This database contains information about the users that access the website. It contains \
 information like username, email, and password. The password is hashed before displayed; \
