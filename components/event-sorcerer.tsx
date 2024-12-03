@@ -358,12 +358,12 @@ export function EventSorcererComponent() {
 
   return (
     <div className="flex h-screen bg-white-0">
-      <aside className="w-64 bg-primary-400 p-4">
-        <h1 className="text-2xl font-prociono mb-8">Event Sorcerer</h1>
+      <aside className="w-64 bg-primary-500 p-4">
+        <h1 className="text-6xl font-heading mb-8">Event Sorcerer</h1>
         <nav className="space-y-2">
           <Button
             variant="ghost"
-            className="w-full justify-start"
+            className="text-lg w-full justify-start"
             onClick={() => setActiveTab('home')}
           >
             <Home className="mr-2 h-4 w-4" />
@@ -371,7 +371,7 @@ export function EventSorcererComponent() {
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start"
+            className="text-lg w-full justify-start"
             onClick={() => setActiveTab('events')}
           >
             <CalendarDays className="mr-2 h-4 w-4" />
@@ -379,7 +379,7 @@ export function EventSorcererComponent() {
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start"
+            className="text-lg w-full justify-start"
             onClick={() => setActiveTab('tasks')}
           >
             <CheckSquare className="mr-2 h-4 w-4" />
@@ -387,11 +387,11 @@ export function EventSorcererComponent() {
           </Button>
         </nav>
         <div className="absolute bottom-4 left-4 space-y-2">
-          <Button variant="ghost" className="w-full justify-start">
+          <Button variant="ghost" className="text-lg w-full justify-start">
             <Users className="mr-2 h-4 w-4" />
             Profile
           </Button>
-          <Button variant="ghost" className="w-full justify-start">
+          <Button variant="ghost" className="text-lg w-full justify-start">
             <LogOut className="mr-2 h-4 w-4" />
             Sign Out
           </Button>
