@@ -32,10 +32,16 @@ export class EventDetails {
     @Column({ type: "time", nullable: true })
     rsvpDueTime: Date;
 
-    @OneToMany(() => Itinerary, (subevents) => subevents.eventId)
+    @OneToMany(() => Itinerary, (subevents) => subevents.eventId, {
+        cascade: true,
+    })
+    @Column("text", { array: true, default: [] })
     subevents: Itinerary[];
 
-    @OneToMany(() => Participant, (participants) => participants.eventId)
+    @OneToMany(() => Participant, (participants) => participants.eventId, {
+        cascade: true,
+    })
+    @Column("text", { array: true, default: [] })
     participants: Participant[];
 
     @PrimaryGeneratedColumn()

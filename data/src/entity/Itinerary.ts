@@ -1,9 +1,7 @@
 import {
     Entity,
-    PrimaryColumn,
     Column,
     PrimaryGeneratedColumn,
-    ManyToMany,
     ManyToOne,
     JoinColumn,
 } from "typeorm";
@@ -28,6 +26,7 @@ export class Itinerary {
     @Column()
     subeventDescription: string;
 
+    // maybe the connection is wrong and it has to be connected to EventDetails id
     @ManyToOne(() => EventDetails, (eventId) => eventId.subevents)
     @JoinColumn({ name: "eventId" })
     eventId: number;

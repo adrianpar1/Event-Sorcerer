@@ -29,7 +29,7 @@ export class Participant {
     admin: boolean;
 
     @ManyToOne(() => EventDetails, (eventId) => eventId.participants)
-    @JoinColumn({ name: "eventId" })
+    @Column()
     eventId: number;
 
     @PrimaryGeneratedColumn()
