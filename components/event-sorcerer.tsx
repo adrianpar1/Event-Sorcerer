@@ -357,315 +357,482 @@ export function EventSorcererComponent() {
   )
 
   return (
-    <div className="flex h-screen bg-white-0">
-      <aside className="w-64 bg-primary-500 p-4">
-        <h1 className="text-6xl font-prociono mb-8">Event Sorcerer</h1>
-        <nav className="space-y-2">
-          <Button
-            variant="ghost"
-            className="text-lg w-full justify-start"
-            onClick={() => setActiveTab('home')}
-          >
-            <Home className="mr-2 h-4 w-4" />
-            Home
-          </Button>
-          <Button
-            variant="ghost"
-            className="text-lg w-full justify-start"
-            onClick={() => setActiveTab('events')}
-          >
-            <CalendarDays className="mr-2 h-4 w-4" />
-            Events
-          </Button>
-          <Button
-            variant="ghost"
-            className="text-lg w-full justify-start"
-            onClick={() => setActiveTab('tasks')}
-          >
-            <CheckSquare className="mr-2 h-4 w-4" />
-            Tasks
-          </Button>
-        </nav>
-        <div className="absolute bottom-4 left-4 space-y-2">
-          <Button variant="ghost" className="text-lg w-full justify-start">
-            <Users className="mr-2 h-4 w-4" />
-            Profile
-          </Button>
-          <Button variant="ghost" className="text-lg w-full justify-start">
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
-          </Button>
-        </div>
-      </aside>
-
-      <main className="flex-1 p-8 overflow-auto">
-        {renderContent()}
-      </main>
-
-      <Dialog open={isEventDialogOpen} onOpenChange={setIsEventDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create New Event</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="event-title" className="text-right">
-                Title
-              </Label>
-              <Input
-                id="event-title"
-                value={newEvent.title || ''}
-                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="event-date" className="text-right">
-                Date
-              </Label>
-              <Popover>
-                <PopoverTrigger asChild>
+      <div className="flex h-screen bg-white-0">
+          <aside className="w-64 bg-primary-500 p-4">
+              <h1 className="text-6xl font-prociono mb-8">Event Sorcerer</h1>
+              <nav className="space-y-2">
                   <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-[280px] justify-start text-left font-normal",
-                      !newEvent.date && "text-muted-foreground"
-                    )}
+                      variant="ghost"
+                      className="hover:bg-primary-400 text-lg w-full justify-start"
+                      onClick={() => setActiveTab("home")}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {newEvent.date ? format(newEvent.date, "PPP") : <span>Pick a date</span>}
+                      <Home className="mr-2 h-4 w-4" />
+                      Home
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={newEvent.date}
-                    onSelect={(date) => setNewEvent({ ...newEvent, date })}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="event-budget" className="text-right">
-                Budget
-              </Label>
-              <Input
-                id="event-budget"
-                type="number"
-                value={newEvent.budget || ''}
-                onChange={(e) => setNewEvent({ ...newEvent, budget: parseFloat(e.target.value) })}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="event-description" className="text-right">
-                Description
-              </Label>
-              <Textarea
-                id="event-description"
-                value={newEvent.description || ''}
-                onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                className="col-span-3"
-              />
-            </div>
-          </div>
-          <Button onClick={handleCreateEvent}>Create Event</Button>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isTaskDialogOpen} onOpenChange={setIsTaskDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create New Task</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="task-title" className="text-right">
-                Title
-              </Label>
-              <Input
-                id="task-title"
-                value={newTask.title || ''}
-                onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="task-event" className="text-right">
-                Event
-              </Label>
-              <select
-                id="task-event"
-                value={newTask.eventId || ''}
-                onChange={(e) => setNewTask({ ...newTask, eventId: e.target.value })}
-                className="col-span-3"
-              >
-                <option value="">Select an event</option>
-                {events.map(event => (
-                  <option key={event.id} value={event.id}>{event.title}</option>
-                ))}
-              </select>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="task-date" className="text-right">
-                Date
-              </Label>
-              <Popover>
-                <PopoverTrigger asChild>
                   <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-[280px] justify-start text-left font-normal",
-                      !newTask.date && "text-muted-foreground"
-                    )}
+                      variant="ghost"
+                      className="hover:bg-primary-400 text-lg w-full justify-start"
+                      onClick={() => setActiveTab("events")}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {newTask.date ? format(newTask.date, "PPP") : <span>Pick a date</span>}
+                      <CalendarDays className="mr-2 h-4 w-4" />
+                      Events
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={newTask.date}
-                    onSelect={(date) => setNewTask({ ...newTask, date })}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="task-assigned" className="text-right">
-                Assigned To
-              </Label>
-              <Input
-                id="task-assigned"
-                value={newTask.assignedTo || ''}
-                onChange={(e) => setNewTask({ ...newTask, assignedTo: e.target.value })}
-                className="col-span-3"
-              />
-            </div>
-          </div>
-          <Button onClick={handleCreateTask}>Create Task</Button>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={selectedEvent !== null} onOpenChange={() => setSelectedEvent(null)}>
-        <DialogContent className="max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>{selectedEvent?.title}</DialogTitle>
-          </DialogHeader>
-          <Tabs defaultValue="overview">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="tasks">Tasks</TabsTrigger>
-              <TabsTrigger value="budget">Budget</TabsTrigger>
-              <TabsTrigger value="itinerary">Itinerary</TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview">
-              <div className="space-y-4">
-                <p><strong>Date:</strong> {selectedEvent && format(selectedEvent.date, 'MMMM d, yyyy')}</p>
-                <p><strong>Description:</strong> {selectedEvent?.description}</p>
-                <p><strong>Attendees:</strong> {selectedEvent?.attendees}</p>
-                <p><strong>Tasks:</strong> {selectedEvent?.tasksCompleted}/{selectedEvent?.tasks} completed</p>
-                <Progress value={selectedEvent ? (selectedEvent.tasksCompleted / selectedEvent.tasks) * 100 : 0} className="h-2" />
-              </div>
-            </TabsContent>
-            <TabsContent value="tasks">
-              <div className="space-y-4">
-                <Button onClick={() => setIsTaskDialogOpen(true)}>Add Task</Button>
-                {tasks.filter(task => task.eventId === selectedEvent?.id).map(task => (
-                  <div key={task.id} className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={() => toggleTaskCompletion(task.id)}
-                        className="mr-2"
-                      />
-                      <span className={task.completed ? 'line-through' : ''}>{task.title}</span>
-                    </div>
-                    <span>{format(task.date, 'MMM d')}</span>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-            <TabsContent value="budget">
-              <div className="space-y-4">
-                <p><strong>Budget:</strong> ${selectedEvent?.budget}</p>
-                <p><strong>Expenses:</strong> ${selectedEvent?.expenses}</p>
-                <Progress value={selectedEvent ? (selectedEvent.expenses / selectedEvent.budget) * 100 : 0} className="h-2" />
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="number"
-                    placeholder="Expense amount"
-                    className="w-32"
-                    onChange={(e) => setNewExpense(parseFloat(e.target.value))}
-                  />
-                  <Button onClick={() => {
-                    if (selectedEvent && newExpense) {
-                      addExpense(selectedEvent.id, newExpense)
-                      setNewExpense(0)
-                    }
-                  }}>
-                    Add Expense
+                  <Button
+                      variant="ghost"
+                      className="hover:bg-primary-400 text-lg w-full justify-start"
+                      onClick={() => setActiveTab("tasks")}
+                  >
+                      <CheckSquare className="mr-2 h-4 w-4" />
+                      Tasks
                   </Button>
-                </div>
+              </nav>
+              <div className="absolute bottom-4 left-4 space-y-2">
+                  <Button
+                      variant="ghost"
+                      className="text-lg w-full justify-start"
+                  >
+                      <Users className="mr-2 h-4 w-4" />
+                      Profile
+                  </Button>
+                  <Button
+                      variant="ghost"
+                      className="hover:bg-primary-400 text-lg w-full justify-start"
+                  >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                  </Button>
               </div>
-            </TabsContent>
-            <TabsContent value="itinerary">
-              <div className="space-y-4">
-                <Button onClick={() => setIsItineraryItemDialogOpen(true)}>Add Itinerary Item</Button>
-                {selectedEvent?.itinerary.map(item => (
-                  <div key={item.id} className="flex items-center justify-between">
-                    <span>{format(item.time, 'h:mm a')}</span>
-                    <span>{item.description}</span>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-        </DialogContent>
-      </Dialog>
+          </aside>
 
-      <Dialog open={isItineraryItemDialogOpen} onOpenChange={setIsItineraryItemDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Itinerary Item</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="itinerary-time" className="text-right">
-                Time
-              </Label>
-              <Input
-                id="itinerary-time"
-                type="time"
-                value={newItineraryItem.time ? format(newItineraryItem.time, 'HH:mm') : ''}
-                onChange={(e) => {
-                  const [hours, minutes] = e.target.value.split(':').map(Number);
-                  const time = addHours(new Date().setHours(0, 0, 0, 0), hours);
-                  time.setMinutes(minutes);
-                  setNewItineraryItem({ ...newItineraryItem, time });
-                }}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="itinerary-description" className="text-right">
-                Description
-              </Label>
-              <Input
-                id="itinerary-description"
-                value={newItineraryItem.description || ''}
-                onChange={(e) => setNewItineraryItem({ ...newItineraryItem, description: e.target.value })}
-                className="col-span-3"
-              />
-            </div>
-          </div>
-          <Button onClick={handleCreateItineraryItem}>Add Itinerary Item</Button>
-        </DialogContent>
-      </Dialog>
-    </div>
-  )
+          <main className="flex-1 p-8 overflow-auto">{renderContent()}</main>
+
+          <Dialog open={isEventDialogOpen} onOpenChange={setIsEventDialogOpen}>
+              <DialogContent>
+                  <DialogHeader>
+                      <DialogTitle>Create New Event</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="event-title" className="text-right">
+                              Title
+                          </Label>
+                          <Input
+                              id="event-title"
+                              value={newEvent.title || ""}
+                              onChange={(e) =>
+                                  setNewEvent({
+                                      ...newEvent,
+                                      title: e.target.value,
+                                  })
+                              }
+                              className="col-span-3"
+                          />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="event-date" className="text-right">
+                              Date
+                          </Label>
+                          <Popover>
+                              <PopoverTrigger asChild>
+                                  <Button
+                                      variant={"outline"}
+                                      className={cn(
+                                          "w-[280px] justify-start text-left font-normal",
+                                          !newEvent.date &&
+                                              "text-muted-foreground"
+                                      )}
+                                  >
+                                      <CalendarIcon className="mr-2 h-4 w-4" />
+                                      {newEvent.date ? (
+                                          format(newEvent.date, "PPP")
+                                      ) : (
+                                          <span>Pick a date</span>
+                                      )}
+                                  </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                      mode="single"
+                                      selected={newEvent.date}
+                                      onSelect={(date) =>
+                                          setNewEvent({ ...newEvent, date })
+                                      }
+                                      initialFocus
+                                  />
+                              </PopoverContent>
+                          </Popover>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="event-budget" className="text-right">
+                              Budget
+                          </Label>
+                          <Input
+                              id="event-budget"
+                              type="number"
+                              value={newEvent.budget || ""}
+                              onChange={(e) =>
+                                  setNewEvent({
+                                      ...newEvent,
+                                      budget: parseFloat(e.target.value),
+                                  })
+                              }
+                              className="col-span-3"
+                          />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label
+                              htmlFor="event-description"
+                              className="text-right"
+                          >
+                              Description
+                          </Label>
+                          <Textarea
+                              id="event-description"
+                              value={newEvent.description || ""}
+                              onChange={(e) =>
+                                  setNewEvent({
+                                      ...newEvent,
+                                      description: e.target.value,
+                                  })
+                              }
+                              className="col-span-3"
+                          />
+                      </div>
+                  </div>
+                  <Button onClick={handleCreateEvent}>Create Event</Button>
+              </DialogContent>
+          </Dialog>
+
+          <Dialog open={isTaskDialogOpen} onOpenChange={setIsTaskDialogOpen}>
+              <DialogContent>
+                  <DialogHeader>
+                      <DialogTitle>Create New Task</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="task-title" className="text-right">
+                              Title
+                          </Label>
+                          <Input
+                              id="task-title"
+                              value={newTask.title || ""}
+                              onChange={(e) =>
+                                  setNewTask({
+                                      ...newTask,
+                                      title: e.target.value,
+                                  })
+                              }
+                              className="col-span-3"
+                          />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="task-event" className="text-right">
+                              Event
+                          </Label>
+                          <select
+                              id="task-event"
+                              value={newTask.eventId || ""}
+                              onChange={(e) =>
+                                  setNewTask({
+                                      ...newTask,
+                                      eventId: e.target.value,
+                                  })
+                              }
+                              className="col-span-3"
+                          >
+                              <option value="">Select an event</option>
+                              {events.map((event) => (
+                                  <option key={event.id} value={event.id}>
+                                      {event.title}
+                                  </option>
+                              ))}
+                          </select>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="task-date" className="text-right">
+                              Date
+                          </Label>
+                          <Popover>
+                              <PopoverTrigger asChild>
+                                  <Button
+                                      variant={"outline"}
+                                      className={cn(
+                                          "w-[280px] justify-start text-left font-normal",
+                                          !newTask.date &&
+                                              "text-muted-foreground"
+                                      )}
+                                  >
+                                      <CalendarIcon className="mr-2 h-4 w-4" />
+                                      {newTask.date ? (
+                                          format(newTask.date, "PPP")
+                                      ) : (
+                                          <span>Pick a date</span>
+                                      )}
+                                  </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                      mode="single"
+                                      selected={newTask.date}
+                                      onSelect={(date) =>
+                                          setNewTask({ ...newTask, date })
+                                      }
+                                      initialFocus
+                                  />
+                              </PopoverContent>
+                          </Popover>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="task-assigned" className="text-right">
+                              Assigned To
+                          </Label>
+                          <Input
+                              id="task-assigned"
+                              value={newTask.assignedTo || ""}
+                              onChange={(e) =>
+                                  setNewTask({
+                                      ...newTask,
+                                      assignedTo: e.target.value,
+                                  })
+                              }
+                              className="col-span-3"
+                          />
+                      </div>
+                  </div>
+                  <Button onClick={handleCreateTask}>Create Task</Button>
+              </DialogContent>
+          </Dialog>
+
+          <Dialog
+              open={selectedEvent !== null}
+              onOpenChange={() => setSelectedEvent(null)}
+          >
+              <DialogContent className="max-w-4xl">
+                  <DialogHeader>
+                      <DialogTitle>{selectedEvent?.title}</DialogTitle>
+                  </DialogHeader>
+                  <Tabs defaultValue="overview">
+                      <TabsList>
+                          <TabsTrigger value="overview">Overview</TabsTrigger>
+                          <TabsTrigger value="tasks">Tasks</TabsTrigger>
+                          <TabsTrigger value="budget">Budget</TabsTrigger>
+                          <TabsTrigger value="itinerary">Itinerary</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="overview">
+                          <div className="space-y-4">
+                              <p>
+                                  <strong>Date:</strong>{" "}
+                                  {selectedEvent &&
+                                      format(
+                                          selectedEvent.date,
+                                          "MMMM d, yyyy"
+                                      )}
+                              </p>
+                              <p>
+                                  <strong>Description:</strong>{" "}
+                                  {selectedEvent?.description}
+                              </p>
+                              <p>
+                                  <strong>Attendees:</strong>{" "}
+                                  {selectedEvent?.attendees}
+                              </p>
+                              <p>
+                                  <strong>Tasks:</strong>{" "}
+                                  {selectedEvent?.tasksCompleted}/
+                                  {selectedEvent?.tasks} completed
+                              </p>
+                              <Progress
+                                  value={
+                                      selectedEvent
+                                          ? (selectedEvent.tasksCompleted /
+                                                selectedEvent.tasks) *
+                                            100
+                                          : 0
+                                  }
+                                  className="h-2"
+                              />
+                          </div>
+                      </TabsContent>
+                      <TabsContent value="tasks">
+                          <div className="space-y-4">
+                              <Button onClick={() => setIsTaskDialogOpen(true)}>
+                                  Add Task
+                              </Button>
+                              {tasks
+                                  .filter(
+                                      (task) =>
+                                          task.eventId === selectedEvent?.id
+                                  )
+                                  .map((task) => (
+                                      <div
+                                          key={task.id}
+                                          className="flex items-center justify-between"
+                                      >
+                                          <div className="flex items-center">
+                                              <input
+                                                  type="checkbox"
+                                                  checked={task.completed}
+                                                  onChange={() =>
+                                                      toggleTaskCompletion(
+                                                          task.id
+                                                      )
+                                                  }
+                                                  className="mr-2"
+                                              />
+                                              <span
+                                                  className={
+                                                      task.completed
+                                                          ? "line-through"
+                                                          : ""
+                                                  }
+                                              >
+                                                  {task.title}
+                                              </span>
+                                          </div>
+                                          <span>
+                                              {format(task.date, "MMM d")}
+                                          </span>
+                                      </div>
+                                  ))}
+                          </div>
+                      </TabsContent>
+                      <TabsContent value="budget">
+                          <div className="space-y-4">
+                              <p>
+                                  <strong>Budget:</strong> $
+                                  {selectedEvent?.budget}
+                              </p>
+                              <p>
+                                  <strong>Expenses:</strong> $
+                                  {selectedEvent?.expenses}
+                              </p>
+                              <Progress
+                                  value={
+                                      selectedEvent
+                                          ? (selectedEvent.expenses /
+                                                selectedEvent.budget) *
+                                            100
+                                          : 0
+                                  }
+                                  className="h-2"
+                              />
+                              <div className="flex items-center space-x-2">
+                                  <Input
+                                      type="number"
+                                      placeholder="Expense amount"
+                                      className="w-32"
+                                      onChange={(e) =>
+                                          setNewExpense(
+                                              parseFloat(e.target.value)
+                                          )
+                                      }
+                                  />
+                                  <Button
+                                      onClick={() => {
+                                          if (selectedEvent && newExpense) {
+                                              addExpense(
+                                                  selectedEvent.id,
+                                                  newExpense
+                                              );
+                                              setNewExpense(0);
+                                          }
+                                      }}
+                                  >
+                                      Add Expense
+                                  </Button>
+                              </div>
+                          </div>
+                      </TabsContent>
+                      <TabsContent value="itinerary">
+                          <div className="space-y-4">
+                              <Button
+                                  onClick={() =>
+                                      setIsItineraryItemDialogOpen(true)
+                                  }
+                              >
+                                  Add Itinerary Item
+                              </Button>
+                              {selectedEvent?.itinerary.map((item) => (
+                                  <div
+                                      key={item.id}
+                                      className="flex items-center justify-between"
+                                  >
+                                      <span>{format(item.time, "h:mm a")}</span>
+                                      <span>{item.description}</span>
+                                  </div>
+                              ))}
+                          </div>
+                      </TabsContent>
+                  </Tabs>
+              </DialogContent>
+          </Dialog>
+
+          <Dialog
+              open={isItineraryItemDialogOpen}
+              onOpenChange={setIsItineraryItemDialogOpen}
+          >
+              <DialogContent>
+                  <DialogHeader>
+                      <DialogTitle>Add Itinerary Item</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label
+                              htmlFor="itinerary-time"
+                              className="text-right"
+                          >
+                              Time
+                          </Label>
+                          <Input
+                              id="itinerary-time"
+                              type="time"
+                              value={
+                                  newItineraryItem.time
+                                      ? format(newItineraryItem.time, "HH:mm")
+                                      : ""
+                              }
+                              onChange={(e) => {
+                                  const [hours, minutes] = e.target.value
+                                      .split(":")
+                                      .map(Number);
+                                  const time = addHours(
+                                      new Date().setHours(0, 0, 0, 0),
+                                      hours
+                                  );
+                                  time.setMinutes(minutes);
+                                  setNewItineraryItem({
+                                      ...newItineraryItem,
+                                      time,
+                                  });
+                              }}
+                              className="col-span-3"
+                          />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label
+                              htmlFor="itinerary-description"
+                              className="text-right"
+                          >
+                              Description
+                          </Label>
+                          <Input
+                              id="itinerary-description"
+                              value={newItineraryItem.description || ""}
+                              onChange={(e) =>
+                                  setNewItineraryItem({
+                                      ...newItineraryItem,
+                                      description: e.target.value,
+                                  })
+                              }
+                              className="col-span-3"
+                          />
+                      </div>
+                  </div>
+                  <Button onClick={handleCreateItineraryItem}>
+                      Add Itinerary Item
+                  </Button>
+              </DialogContent>
+          </Dialog>
+      </div>
+  );
 }
