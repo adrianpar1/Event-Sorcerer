@@ -357,9 +357,9 @@ export function EventSorcererComponent() {
   )
 
   return (
-    <div className="flex h-screen bg-lavender-50">
-      <aside className="w-64 bg-lavender-200 p-4">
-        <h1 className="text-2xl font-bold mb-8">Event Sorcerer</h1>
+    <div className="flex h-screen bg-white-0">
+      <aside className="w-64 bg-primary-400 p-4">
+        <h1 className="text-2xl font-prociono mb-8">Event Sorcerer</h1>
         <nav className="space-y-2">
           <Button
             variant="ghost"
