@@ -15,7 +15,6 @@ import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import SideNav from "@/app/ui/dashboard/sidenav";
 
 interface Event {
   id: string
@@ -46,7 +45,7 @@ interface Task {
 }
 
 export function EventSorcererComponent() {
-  const [activeTab] = useState('home')
+  const [activeTab, setActiveTab] = useState('home')
   const [events, setEvents] = useState<Event[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
   const [newEvent, setNewEvent] = useState<Partial<Event>>({})
@@ -360,7 +359,43 @@ export function EventSorcererComponent() {
   return (
     <div className="flex h-screen bg-lavender-50">
       <aside className="w-64 bg-lavender-200 p-4">
-        <SideNav />
+        <h1 className="text-2xl font-bold mb-8">Event Sorcerer</h1>
+        <nav className="space-y-2">
+          <Button
+            variant="ghost"
+            className="w-full justify-start"
+            onClick={() => setActiveTab('home')}
+          >
+            <Home className="mr-2 h-4 w-4" />
+            Home
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-full justify-start"
+            onClick={() => setActiveTab('events')}
+          >
+            <CalendarDays className="mr-2 h-4 w-4" />
+            Events
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-full justify-start"
+            onClick={() => setActiveTab('tasks')}
+          >
+            <CheckSquare className="mr-2 h-4 w-4" />
+            Tasks
+          </Button>
+        </nav>
+        <div className="absolute bottom-4 left-4 space-y-2">
+          <Button variant="ghost" className="w-full justify-start">
+            <Users className="mr-2 h-4 w-4" />
+            Profile
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign Out
+          </Button>
+        </div>
       </aside>
 
       <main className="flex-1 p-8 overflow-auto">
