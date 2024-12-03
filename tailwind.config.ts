@@ -21,8 +21,8 @@ const config: Config = {
                 },
             },
             fontFamily: {
-                heading: ["Prociono", '"Times New Roman"', "serif"],
-                body: ["Rubik", "Arial", "sans"],
+                prociono: ["Prociono", "serif"],
+                rubik: ["Rubik", "sans"],
             },
         },
         keyframes: {

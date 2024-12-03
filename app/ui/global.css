@@ -73,7 +73,7 @@
         font-style: normal;
         font-weight: 400;
         font-display: swap;
-        src: url(/fonts/Prociono-Regular.ttf) format("ttf");
+        src: url("../../fonts/Prociono-Regular.ttf") format("ttf");
     }
 
     @font-face {
@@ -81,6 +81,6 @@
         font-style: normal;
         font-weight: 400;
         font-display: swap;
-        src: url(/fonts/Rubik-VariableFont_wght.ttf) format("ttf");
+        src: url("../../fonts/Rubik-VariableFont_wght.ttf") format("ttf");
     }
 }
