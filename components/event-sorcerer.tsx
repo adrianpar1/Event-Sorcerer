@@ -389,7 +389,7 @@ export function EventSorcererComponent() {
               <div className="absolute bottom-4 left-4 space-y-2">
                   <Button
                       variant="ghost"
-                      className="text-lg w-full justify-start"
+                      className="hover:bg-primary-400 text-lg w-full justify-start"
                   >
                       <Users className="mr-2 h-4 w-4" />
                       Profile

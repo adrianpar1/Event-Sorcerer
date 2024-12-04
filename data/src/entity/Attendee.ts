@@ -2,11 +2,12 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    UpdateDateColumn,
+    ManyToOne,
+    JoinColumn,
 } from "typeorm";
 
 @Entity()
-export class User {
+export class Attendee {
     @Column()
     firstName: string;
 
@@ -15,16 +16,6 @@ export class User {
 
     @Column({ unique: true })
     username: string;
-
-    @Column({ select: false })
-    password: string;
-
-    // figure out password hashing mechanism later
-    @Column()
-    hashedPassword: string;
-
-    @Column()
-    email: string;
 
     @PrimaryGeneratedColumn()
     id: number;
