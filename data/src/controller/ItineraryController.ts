@@ -10,10 +10,10 @@ export class ItineraryController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        const subeventOrder = parseInt(request.params.id);
+        const id = parseInt(request.params.id);
 
         const itinerary = await this.itineraryRepository.findOne({
-            where: { subeventOrder },
+            where: { id },
         });
 
         if (!itinerary) {

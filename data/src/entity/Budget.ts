@@ -12,10 +12,10 @@ export class Budget {
     totalBudget: number;
 
     @Column()
-    lastName: string;
+    expenseAmount: string;
 
     @Column({ unique: true })
-    username: string;
+    expenseDescription: string;
 
     @PrimaryGeneratedColumn()
     id: number;
