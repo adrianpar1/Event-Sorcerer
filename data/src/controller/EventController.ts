@@ -10,7 +10,7 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
-            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.subevents", "subevents")
             .leftJoinAndSelect("event.attendees", "attendees")
             .getMany();
 
@@ -24,7 +24,7 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
-            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.subevents", "subevents")
             .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();
@@ -56,7 +56,7 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
-            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.subevents", "subevents")
             .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();
@@ -71,7 +71,7 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
-            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.subevents", "subevents")
             .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();
@@ -86,7 +86,7 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
-            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.subevents", "subevents")
             .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();

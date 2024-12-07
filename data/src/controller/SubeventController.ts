@@ -1,14 +1,14 @@
 import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Itinerary } from "../entity/Itinerary";
+import { Subevent } from "../entity/Subevent";
 
-export class ItineraryController {
-    private itineraryRepository = AppDataSource.getRepository(Itinerary);
+export class SubeventController {
+    private subeventRepository = AppDataSource.getRepository(Subevent);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        const subevents = await this.itineraryRepository
-            .createQueryBuilder("itinerary")
-            .leftJoinAndSelect("itinerary.event", "event")
+        const subevents = await this.subeventRepository
+            .createQueryBuilder("subevent")
+            .leftJoinAndSelect("subevent.event", "event")
             .getMany();
 
         return subevents;
@@ -17,9 +17,9 @@ export class ItineraryController {
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const subevent = await this.itineraryRepository
-            .createQueryBuilder("itinerary")
-            .leftJoinAndSelect("itinerary.event", "event")
+        const subevent = await this.subeventRepository
+            .createQueryBuilder("subevent")
+            .leftJoinAndSelect("subevent.event", "event")
             .where({ id })
             .getOne();
 
@@ -33,22 +33,22 @@ export class ItineraryController {
     async save(request: Request, response: Response, next: NextFunction) {
         const { subeventTime, subeventDescription, event } = request.body;
 
-        const itinerary = Object.assign(new Itinerary(), {
+        const subevent = Object.assign(new Subevent(), {
             subeventTime,
             subeventDescription,
             event,
         });
 
-        return this.itineraryRepository.save(itinerary);
+        return this.subeventRepository.save(subevent);
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
         let id = parseInt(request.params.id);
         const body = request.body;
 
-        const existingSubevent = await this.itineraryRepository
-            .createQueryBuilder("itinerary")
-            .leftJoinAndSelect("itinerary.event", "event")
+        const existingSubevent = await this.subeventRepository
+            .createQueryBuilder("subevent")
+            .leftJoinAndSelect("subevent.event", "event")
             .where({ id })
             .getOne();
 
@@ -56,12 +56,12 @@ export class ItineraryController {
             return "this subevent does not exist";
         }
 
-        await this.itineraryRepository.update(id, body);
+        await this.subeventRepository.update(id, body);
         id = parseInt(request.params.id);
 
-        const newSubevent = await this.itineraryRepository
-            .createQueryBuilder("itinerary")
-            .leftJoinAndSelect("itinerary.event", "event")
+        const newSubevent = await this.subeventRepository
+            .createQueryBuilder("subevent")
+            .leftJoinAndSelect("subevent.event", "event")
             .where({ id })
             .getOne();
 
@@ -71,9 +71,9 @@ export class ItineraryController {
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const subeventToRemove = await this.itineraryRepository
-            .createQueryBuilder("itinerary")
-            .leftJoinAndSelect("itinerary.event", "event")
+        const subeventToRemove = await this.subeventRepository
+            .createQueryBuilder("subevent")
+            .leftJoinAndSelect("subevent.event", "event")
             .where({ id })
             .getOne();
 
@@ -81,7 +81,7 @@ export class ItineraryController {
             return "this subevent does not exist";
         }
 
-        await this.itineraryRepository.remove(subeventToRemove);
+        await this.subeventRepository.remove(subeventToRemove);
 
         return "subevent has been removed";
     }

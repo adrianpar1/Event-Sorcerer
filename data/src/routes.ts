@@ -1,7 +1,7 @@
 import { body, param } from "express-validator";
 import { EventController } from "./controller/EventController";
 import { UserController } from "./controller/UserController";
-import { ItineraryController } from "./controller/ItineraryController";
+import { SubeventController } from "./controller/SubeventController";
 import { TaskController } from "./controller/TaskController";
 import { BudgetController } from "./controller/BudgetController";
 import { AttendeeController } from "./controller/AttendeeController";
@@ -126,43 +126,43 @@ export const Routes = [
         validation: [param("id").isInt()],
     },
 
-    // Itinerary routes ("/itinerary")
+    // Subevent routes ("/subevents")
     {
         method: "get",
-        route: "/itinerary",
-        controller: ItineraryController,
+        route: "/subevents",
+        controller: SubeventController,
         action: "all",
         validation: [],
     },
     {
         method: "get",
-        route: "/itinerary/:id",
-        controller: ItineraryController,
+        route: "/subevents/:id",
+        controller: SubeventController,
         action: "one",
         validation: [param("id").isInt()],
     },
     {
         method: "post",
-        route: "/itinerary",
-        controller: ItineraryController,
+        route: "/subevents",
+        controller: SubeventController,
         action: "save",
         validation: [
-            body("subeventTime").isTime({ mode: "withSeconds" }),
+            body("subeventTime").isTime({ mode: "default" }),
             body("subeventDescription").isString(),
             body("event").isInt(),
         ],
     },
     {
         method: "patch",
-        route: "/itinerary/:id",
-        controller: ItineraryController,
+        route: "/subevents/:id",
+        controller: SubeventController,
         action: "update",
         validation: [param("id").isInt()],
     },
     {
         method: "delete",
-        route: "/itinerary/:id",
-        controller: ItineraryController,
+        route: "/subevents/:id",
+        controller: SubeventController,
         action: "remove",
         validation: [param("id").isInt()],
     },

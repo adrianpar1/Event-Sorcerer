@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { Task } from "./Task";
 import { Budget } from "./Budget";
-import { Itinerary } from "./Itinerary";
+import { Subevent } from "./Subevent";
 import { Attendee } from "./Attendee";
 
 @Entity()
@@ -30,10 +30,10 @@ export class Event {
     @JoinColumn({ name: "budget" })
     budget: Budget[];
 
-    @OneToMany(() => Itinerary, (itinerary) => itinerary.event, {
+    @OneToMany(() => Subevent, (subevent) => subevent.event, {
         onDelete: "CASCADE",
     })
-    itinerary: Itinerary[];
+    subevents: Subevent[];
 
     @OneToMany(() => Attendee, (attendee) => attendee.event, {
         onDelete: "CASCADE",
