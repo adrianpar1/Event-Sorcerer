@@ -1,24 +1,19 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    ManyToOne,
-    JoinColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Event } from "./Event";
 
 @Entity()
 export class Task {
-    @Column({ type: "float" })
-    taskName: number;
-
     @Column()
-    eventId: string;
+    taskName: string;
 
     @Column({ type: "date" })
     date: Date;
 
     @Column()
     assignedTo: string;
+
+    @ManyToOne(() => Event, (event) => event.tasks)
+    event: Event;
 
     @PrimaryGeneratedColumn()
     id: number;

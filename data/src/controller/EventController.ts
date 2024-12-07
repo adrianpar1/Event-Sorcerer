@@ -6,19 +6,29 @@ export class EventController {
     private eventRepository = AppDataSource.getRepository(Event);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.eventRepository.find();
+        const events = await this.eventRepository
+            .createQueryBuilder("event")
+            .leftJoinAndSelect("event.tasks", "task")
+            .leftJoinAndSelect("event.budget", "budget")
+            .getMany();
+
+        return events;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const event = await this.eventRepository.findOne({
-            where: { id },
-        });
+        const event = await this.eventRepository
+            .createQueryBuilder("event")
+            .leftJoinAndSelect("event.tasks", "task")
+            .leftJoinAndSelect("event.budget", "budget")
+            .where({ id })
+            .getOne();
 
         if (!event) {
             return "no event details found";
         }
+
         return event;
     }
 
@@ -38,7 +48,12 @@ export class EventController {
         const id = parseInt(request.params.id);
         const body = request.body;
 
-        let existingEvent = await this.eventRepository.findOneBy({ id });
+        let existingEvent = await this.eventRepository
+            .createQueryBuilder("event")
+            .leftJoinAndSelect("event.tasks", "task")
+            .leftJoinAndSelect("event.budget", "budget")
+            .where({ id })
+            .getOne();
 
         if (!existingEvent) {
             return "this event does not exist";
@@ -46,7 +61,12 @@ export class EventController {
 
         await this.eventRepository.update(id, body);
 
-        let newEvent = await this.eventRepository.findOneBy({ id });
+        let newEvent = await this.eventRepository
+            .createQueryBuilder("event")
+            .leftJoinAndSelect("event.tasks", "task")
+            .leftJoinAndSelect("event.budget", "budget")
+            .where({ id })
+            .getOne();
 
         return newEvent;
     }
@@ -54,7 +74,12 @@ export class EventController {
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        let eventToRemove = await this.eventRepository.findOneBy({ id });
+        let eventToRemove = await this.eventRepository
+            .createQueryBuilder("event")
+            .leftJoinAndSelect("event.tasks", "task")
+            .leftJoinAndSelect("event.budget", "budget")
+            .where({ id })
+            .getOne();
 
         if (!eventToRemove) {
             return "this event does not exist";

@@ -2,20 +2,22 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    ManyToOne,
-    JoinColumn,
+    OneToOne,
+    OneToMany,
 } from "typeorm";
+import { Event } from "./Event";
+import { BudgetItem } from "./BudgetItem";
 
 @Entity()
 export class Budget {
     @Column({ type: "float" })
     totalBudget: number;
 
-    @Column()
-    expenseAmount: string;
+    @OneToMany(() => BudgetItem, (budgetItem) => budgetItem.budget)
+    budgetItem: number;
 
-    @Column({ unique: true })
-    expenseDescription: string;
+    @OneToOne(() => Event, (event) => event.budget)
+    event: Event;
 
     @PrimaryGeneratedColumn()
     id: number;

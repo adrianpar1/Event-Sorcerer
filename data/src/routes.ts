@@ -1,105 +1,129 @@
 import { body, param } from "express-validator";
-import { EventDetailsController } from "./controller/EventDetailsController";
+import { EventController } from "./controller/EventController";
 import { UserController } from "./controller/UserController";
-import { ParticipantController } from "./controller/ParticipantController";
 import { ItineraryController } from "./controller/ItineraryController";
+import { TaskController } from "./controller/TaskController";
+import { BudgetController } from "./controller/BudgetController";
 
 export const Routes = [
-    // EventDetails routes ("/event")
+    // Event routes ("/event")
     {
         method: "get",
         route: "/event",
-        controller: EventDetailsController,
+        controller: EventController,
         action: "all",
         validation: [],
     },
     {
         method: "get",
         route: "/event/:id",
-        controller: EventDetailsController,
+        controller: EventController,
         action: "one",
         validation: [param("id").isInt()],
     },
     {
         method: "post",
         route: "/event",
-        controller: EventDetailsController,
+        controller: EventController,
         action: "save",
         validation: [
             body("eventName").isString(),
             body("eventDate").isDate({ format: "YYYY-MM-DD" }),
-            body("eventTime").isTime({ mode: "withSeconds" }),
-            body("eventLocation").isString(),
             body("eventDescription").isString(),
-            body("rsvpLink").optional({ nullable: true }).isString(),
-            body("rsvpDueDate")
-                .optional({ nullable: true })
-                .isDate({ format: "YYYY-MM-DD" }),
-            body("rsvpDueTime")
-                .optional({ nullable: true })
-                .isTime({ mode: "withSeconds" }),
-            body("subevents").optional({ nullable: true }),
-            body("participants").optional({ nullable: true }),
         ],
     },
     {
         method: "patch",
         route: "/event/:id",
-        controller: EventDetailsController,
+        controller: EventController,
         action: "update",
         validation: [param("id").isInt()],
     },
     {
         method: "delete",
         route: "/event/:id",
-        controller: EventDetailsController,
+        controller: EventController,
         action: "remove",
         validation: [param("id").isInt()],
     },
-    // Participant routes ("/participants")
+    // Task routes ("/tasks")
     {
         method: "get",
-        route: "/participant",
-        controller: ParticipantController,
+        route: "/tasks",
+        controller: TaskController,
         action: "all",
         validation: [],
     },
     {
         method: "get",
-        route: "/participant/:id",
-        controller: ParticipantController,
+        route: "/tasks/:id",
+        controller: TaskController,
         action: "one",
         validation: [param("id").isInt()],
     },
     {
         method: "post",
-        route: "/participant",
-        controller: ParticipantController,
+        route: "/tasks",
+        controller: TaskController,
         action: "save",
         validation: [
-            body("firstName").isString(),
-            body("lastName").isString(),
-            body("email").isString(),
-            body("phone").isString(),
-            body("username").isString(),
-            body("admin").isBoolean(),
-            body("eventId").isInt(),
+            body("taskName").isString(),
+            body("date").isDate({ format: "YYYY-MM-DD" }),
+            body("event").isInt(),
+            body("assignedTo").isString(),
         ],
     },
     {
         method: "patch",
-        route: "/participant/:id",
-        controller: ParticipantController,
+        route: "/tasks/:id",
+        controller: TaskController,
         action: "update",
         validation: [param("id").isInt()],
     },
     {
         method: "delete",
-        route: "/participant/:id",
-        controller: ParticipantController,
+        route: "/tasks/:id",
+        controller: TaskController,
         action: "remove",
         validation: [param("id").isInt()],
     },
+    // Budget routes ("/budget")
+    {
+        method: "get",
+        route: "/budget",
+        controller: BudgetController,
+        action: "all",
+        validation: [],
+    },
+    {
+        method: "get",
+        route: "/budget/:id",
+        controller: BudgetController,
+        action: "one",
+        validation: [param("id").isInt()],
+    },
+    {
+        method: "post",
+        route: "/budget",
+        controller: BudgetController,
+        action: "save",
+        validation: [body("totalBudget").isNumeric()],
+    },
+    {
+        method: "patch",
+        route: "/budget/:id",
+        controller: BudgetController,
+        action: "update",
+        validation: [param("id").isInt()],
+    },
+    {
+        method: "delete",
+        route: "/budget/:id",
+        controller: BudgetController,
+        action: "remove",
+        validation: [param("id").isInt()],
+    },
+
     // Itinerary routes ("/itinerary")
     {
         method: "get",

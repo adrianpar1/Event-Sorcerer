@@ -6,15 +6,22 @@ export class TaskController {
     private taskRepository = AppDataSource.getRepository(Task);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.taskRepository.find();
+        const tasks = await this.taskRepository
+            .createQueryBuilder("task")
+            .leftJoinAndSelect("task.event", "event")
+            .getMany();
+
+        return tasks;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const task = await this.taskRepository.findOne({
-            where: { id },
-        });
+        const task = await this.taskRepository
+            .createQueryBuilder("task")
+            .leftJoinAndSelect("task.event", "event")
+            .where({ id })
+            .getOne();
 
         if (!task) {
             return "task not found";
@@ -23,13 +30,13 @@ export class TaskController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { taskName, eventId, date, assignedTo } = request.body;
+        const { taskName, date, assignedTo, event } = request.body;
 
         const details = Object.assign(new Task(), {
             taskName,
-            eventId,
             date,
             assignedTo,
+            event,
         });
 
         return this.taskRepository.save(details);
@@ -39,7 +46,11 @@ export class TaskController {
         const id = parseInt(request.params.id);
         const body = request.body;
 
-        let existingTask = await this.taskRepository.findOneBy({ id });
+        const existingTask = await this.taskRepository
+            .createQueryBuilder("task")
+            .leftJoinAndSelect("task.event", "event")
+            .where({ id })
+            .getOne();
 
         if (!existingTask) {
             return "this task does not exist";
@@ -47,7 +58,11 @@ export class TaskController {
 
         await this.taskRepository.update(id, body);
 
-        let newTask = await this.taskRepository.findOneBy({ id });
+        const newTask = await this.taskRepository
+            .createQueryBuilder("task")
+            .leftJoinAndSelect("task.event", "event")
+            .where({ id })
+            .getOne();
 
         return newTask;
     }
@@ -55,7 +70,11 @@ export class TaskController {
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        let taskToRemove = await this.taskRepository.findOneBy({ id });
+        const taskToRemove = await this.taskRepository
+            .createQueryBuilder("task")
+            .leftJoinAndSelect("task.event", "event")
+            .where({ id })
+            .getOne();
 
         if (!taskToRemove) {
             return "this task does not exist";

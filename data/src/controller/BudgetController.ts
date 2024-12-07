@@ -6,15 +6,23 @@ export class BudgetController {
     private budgetRepository = AppDataSource.getRepository(Budget);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.budgetRepository.find();
+        const budgets = await this.budgetRepository
+            .createQueryBuilder("budget")
+            .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .leftJoinAndSelect("budget.event", "event")
+            .getMany();
+
+        return budgets;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const budget = await this.budgetRepository.findOne({
-            where: { id },
-        });
+        const budget = await this.budgetRepository
+            .createQueryBuilder("budget")
+            .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .where({ id })
+            .getOne();
 
         if (!budget) {
             return "no budget found";
@@ -23,22 +31,24 @@ export class BudgetController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { totalBudget, expenseAmount, expenseDescription } = request.body;
+        const { totalBudget } = request.body;
 
-        const details = Object.assign(new Budget(), {
+        const budget = Object.assign(new Budget(), {
             totalBudget,
-            expenseAmount,
-            expenseDescription,
         });
 
-        return this.budgetRepository.save(details);
+        return this.budgetRepository.save(budget);
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
         const body = request.body;
 
-        let existingBudget = await this.budgetRepository.findOneBy({ id });
+        let existingBudget = await this.budgetRepository
+            .createQueryBuilder("budget")
+            .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .where({ id })
+            .getOne();
 
         if (!existingBudget) {
             return "this budget does not exist";
@@ -46,7 +56,11 @@ export class BudgetController {
 
         await this.budgetRepository.update(id, body);
 
-        let newBudget = await this.budgetRepository.findOneBy({ id });
+        let newBudget = await this.budgetRepository
+            .createQueryBuilder("budget")
+            .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .where({ id })
+            .getOne();
 
         return newBudget;
     }
@@ -54,7 +68,11 @@ export class BudgetController {
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        let budgetToRemove = await this.budgetRepository.findOneBy({ id });
+        let budgetToRemove = await this.budgetRepository
+            .createQueryBuilder("budget")
+            .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .where({ id })
+            .getOne();
 
         if (!budgetToRemove) {
             return "this budget does not exist";
