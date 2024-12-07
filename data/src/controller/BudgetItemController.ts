@@ -23,11 +23,12 @@ export class BudgetItemController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { expenseAmount, expenseDescription } = request.body;
+        const { expenseAmount, expenseDescription, budget } = request.body;
 
         const details = Object.assign(new Budget(), {
             expenseAmount,
             expenseDescription,
+            budget,
         });
 
         return this.itemRepository.save(details);

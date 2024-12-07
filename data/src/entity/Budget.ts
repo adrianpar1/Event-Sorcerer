@@ -16,6 +16,7 @@ export class Budget {
     @OneToMany(() => BudgetItem, (budgetItem) => budgetItem.budget)
     budgetItem: number;
 
+    // BUG - "Property "event" was not found in "Budget". Make sure your query is correct."
     @OneToOne(() => Event, (event) => event.budget)
     event: Event;
 

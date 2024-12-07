@@ -4,6 +4,7 @@ import { UserController } from "./controller/UserController";
 import { ItineraryController } from "./controller/ItineraryController";
 import { TaskController } from "./controller/TaskController";
 import { BudgetController } from "./controller/BudgetController";
+import { AttendeeController } from "./controller/AttendeeController";
 
 export const Routes = [
     // Event routes ("/event")
@@ -88,6 +89,7 @@ export const Routes = [
         validation: [param("id").isInt()],
     },
     // Budget routes ("/budget")
+    // WORK IN PROGRESS
     {
         method: "get",
         route: "/budget",
@@ -107,7 +109,7 @@ export const Routes = [
         route: "/budget",
         controller: BudgetController,
         action: "save",
-        validation: [body("totalBudget").isNumeric()],
+        validation: [body("totalBudget").isNumeric(), body("event").isInt()],
     },
     {
         method: "patch",
@@ -145,13 +147,9 @@ export const Routes = [
         controller: ItineraryController,
         action: "save",
         validation: [
-            body("subeventName").isString(),
-            body("subeventDate").isDate({ format: "YYYY-MM-DD" }),
             body("subeventTime").isTime({ mode: "withSeconds" }),
-            body("subeventPoc").isString(),
             body("subeventDescription").isString(),
-            body("eventId").isInt(),
-            body("subeventOrder").isInt(),
+            body("event").isInt(),
         ],
     },
     {
@@ -165,6 +163,47 @@ export const Routes = [
         method: "delete",
         route: "/itinerary/:id",
         controller: ItineraryController,
+        action: "remove",
+        validation: [param("id").isInt()],
+    },
+    // Attendee routes ("/attendees")
+    {
+        method: "get",
+        route: "/attendees",
+        controller: AttendeeController,
+        action: "all",
+        validation: [],
+    },
+    {
+        method: "get",
+        route: "/attendees/:id",
+        controller: AttendeeController,
+        action: "one",
+        validation: [param("id").isInt()],
+    },
+    {
+        method: "post",
+        route: "/attendees",
+        controller: AttendeeController,
+        action: "save",
+        validation: [
+            body("firstName").isString(),
+            body("lastName").isString(),
+            body("username").isString(),
+            body("event").isInt(),
+        ],
+    },
+    {
+        method: "patch",
+        route: "/attendees/:id",
+        controller: AttendeeController,
+        action: "update",
+        validation: [param("id").isInt()],
+    },
+    {
+        method: "delete",
+        route: "/attendees/:id",
+        controller: AttendeeController,
         action: "remove",
         validation: [param("id").isInt()],
     },

@@ -1,10 +1,5 @@
-import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    ManyToOne,
-    JoinColumn,
-} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Event } from "./Event";
 
 @Entity()
 export class Itinerary {
@@ -14,6 +9,9 @@ export class Itinerary {
 
     @Column()
     subeventDescription: string;
+
+    @ManyToOne(() => Event, (event) => event.itinerary)
+    event: Event;
 
     @PrimaryGeneratedColumn()
     id: number;

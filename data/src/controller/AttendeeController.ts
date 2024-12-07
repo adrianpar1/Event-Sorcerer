@@ -6,15 +6,22 @@ export class AttendeeController {
     private attendeeRepository = AppDataSource.getRepository(Attendee);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.attendeeRepository.find();
+        const attendees = await this.attendeeRepository
+            .createQueryBuilder("attendee")
+            .leftJoinAndSelect("attendee.event", "event")
+            .getMany();
+
+        return attendees;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const attendee = await this.attendeeRepository.findOne({
-            where: { id },
-        });
+        const attendee = await this.attendeeRepository
+            .createQueryBuilder("attendee")
+            .leftJoinAndSelect("attendee.event", "event")
+            .where({ id })
+            .getOne();
 
         if (!attendee) {
             return "no attendee found";
@@ -23,12 +30,13 @@ export class AttendeeController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { firstName, lastName, username } = request.body;
+        const { firstName, lastName, username, event } = request.body;
 
         const details = Object.assign(new Attendee(), {
             firstName,
             lastName,
             username,
+            event,
         });
 
         return this.attendeeRepository.save(details);
@@ -38,7 +46,11 @@ export class AttendeeController {
         const id = parseInt(request.params.id);
         const body = request.body;
 
-        let existingAttendee = await this.attendeeRepository.findOneBy({ id });
+        const existingAttendee = await this.attendeeRepository
+            .createQueryBuilder("attendee")
+            .leftJoinAndSelect("attendee.event", "event")
+            .where({ id })
+            .getOne();
 
         if (!existingAttendee) {
             return "this attendee does not exist";
@@ -46,7 +58,11 @@ export class AttendeeController {
 
         await this.attendeeRepository.update(id, body);
 
-        let newAttendee = await this.attendeeRepository.findOneBy({ id });
+        const newAttendee = await this.attendeeRepository
+            .createQueryBuilder("attendee")
+            .leftJoinAndSelect("attendee.event", "event")
+            .where({ id })
+            .getOne();
 
         return newAttendee;
     }
@@ -54,7 +70,11 @@ export class AttendeeController {
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        let attendeeToRemove = await this.attendeeRepository.findOneBy({ id });
+        const attendeeToRemove = await this.attendeeRepository
+            .createQueryBuilder("attendee")
+            .leftJoinAndSelect("attendee.event", "event")
+            .where({ id })
+            .getOne();
 
         if (!attendeeToRemove) {
             return "this attendee does not exist";

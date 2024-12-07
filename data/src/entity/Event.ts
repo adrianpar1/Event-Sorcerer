@@ -8,6 +8,8 @@ import {
 } from "typeorm";
 import { Task } from "./Task";
 import { Budget } from "./Budget";
+import { Itinerary } from "./Itinerary";
+import { Attendee } from "./Attendee";
 
 @Entity()
 export class Event {
@@ -21,12 +23,22 @@ export class Event {
     @Column()
     eventDescription: string;
 
-    @OneToMany(() => Task, (task) => task.event)
+    @OneToMany(() => Task, (task) => task.event, { onDelete: "CASCADE" })
     tasks: Task[];
 
-    @OneToOne(() => Budget, (budget) => budget.event, { cascade: true })
-    @JoinColumn({ name: "budget", referencedColumnName: "id" })
+    @OneToOne(() => Budget, (budget) => budget.event, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "budget" })
     budget: Budget[];
+
+    @OneToMany(() => Itinerary, (itinerary) => itinerary.event, {
+        onDelete: "CASCADE",
+    })
+    itinerary: Itinerary[];
+
+    @OneToMany(() => Attendee, (attendee) => attendee.event, {
+        onDelete: "CASCADE",
+    })
+    attendees: Attendee[];
 
     @PrimaryGeneratedColumn()
     id: number;

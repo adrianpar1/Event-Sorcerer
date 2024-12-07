@@ -6,42 +6,37 @@ export class ItineraryController {
     private itineraryRepository = AppDataSource.getRepository(Itinerary);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.itineraryRepository.find();
+        const subevents = await this.itineraryRepository
+            .createQueryBuilder("itinerary")
+            .leftJoinAndSelect("itinerary.event", "event")
+            .getMany();
+
+        return subevents;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const itinerary = await this.itineraryRepository.findOne({
-            where: { id },
-        });
+        const subevent = await this.itineraryRepository
+            .createQueryBuilder("itinerary")
+            .leftJoinAndSelect("itinerary.event", "event")
+            .where({ id })
+            .getOne();
 
-        if (!itinerary) {
+        if (!subevent) {
             return "no subevent details found";
         }
 
-        return itinerary;
+        return subevent;
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const {
-            subeventName,
-            subeventDate,
-            subeventTime,
-            subeventPoc,
-            subeventDescription,
-            eventId,
-            subeventOrder,
-        } = request.body;
+        const { subeventTime, subeventDescription, event } = request.body;
 
         const itinerary = Object.assign(new Itinerary(), {
-            subeventName,
-            subeventDate,
             subeventTime,
-            subeventPoc,
             subeventDescription,
-            eventId,
-            subeventOrder,
+            event,
         });
 
         return this.itineraryRepository.save(itinerary);
@@ -51,7 +46,11 @@ export class ItineraryController {
         let id = parseInt(request.params.id);
         const body = request.body;
 
-        let existingSubevent = await this.itineraryRepository.findOneBy({ id });
+        const existingSubevent = await this.itineraryRepository
+            .createQueryBuilder("itinerary")
+            .leftJoinAndSelect("itinerary.event", "event")
+            .where({ id })
+            .getOne();
 
         if (!existingSubevent) {
             return "this subevent does not exist";
@@ -60,7 +59,11 @@ export class ItineraryController {
         await this.itineraryRepository.update(id, body);
         id = parseInt(request.params.id);
 
-        let newSubevent = await this.itineraryRepository.findOneBy({ id });
+        const newSubevent = await this.itineraryRepository
+            .createQueryBuilder("itinerary")
+            .leftJoinAndSelect("itinerary.event", "event")
+            .where({ id })
+            .getOne();
 
         return newSubevent;
     }
@@ -68,15 +71,17 @@ export class ItineraryController {
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        let itineraryToRemove = await this.itineraryRepository.findOneBy({
-            id,
-        });
+        const subeventToRemove = await this.itineraryRepository
+            .createQueryBuilder("itinerary")
+            .leftJoinAndSelect("itinerary.event", "event")
+            .where({ id })
+            .getOne();
 
-        if (!itineraryToRemove) {
+        if (!subeventToRemove) {
             return "this subevent does not exist";
         }
 
-        await this.itineraryRepository.remove(itineraryToRemove);
+        await this.itineraryRepository.remove(subeventToRemove);
 
         return "subevent has been removed";
     }

@@ -21,6 +21,7 @@ export class BudgetController {
         const budget = await this.budgetRepository
             .createQueryBuilder("budget")
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .leftJoinAndSelect("budget.event", "event")
             .where({ id })
             .getOne();
 
@@ -31,10 +32,11 @@ export class BudgetController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { totalBudget } = request.body;
+        const { totalBudget, event } = request.body;
 
         const budget = Object.assign(new Budget(), {
             totalBudget,
+            event,
         });
 
         return this.budgetRepository.save(budget);
@@ -44,7 +46,7 @@ export class BudgetController {
         const id = parseInt(request.params.id);
         const body = request.body;
 
-        let existingBudget = await this.budgetRepository
+        const existingBudget = await this.budgetRepository
             .createQueryBuilder("budget")
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
             .where({ id })
@@ -56,7 +58,7 @@ export class BudgetController {
 
         await this.budgetRepository.update(id, body);
 
-        let newBudget = await this.budgetRepository
+        const newBudget = await this.budgetRepository
             .createQueryBuilder("budget")
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
             .where({ id })

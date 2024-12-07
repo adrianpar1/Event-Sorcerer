@@ -10,6 +10,8 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
+            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.attendees", "attendees")
             .getMany();
 
         return events;
@@ -22,6 +24,8 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
+            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();
 
@@ -52,6 +56,8 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
+            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();
 
@@ -65,6 +71,8 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
+            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();
 
@@ -78,6 +86,8 @@ export class EventController {
             .createQueryBuilder("event")
             .leftJoinAndSelect("event.tasks", "task")
             .leftJoinAndSelect("event.budget", "budget")
+            .leftJoinAndSelect("event.itinerary", "itinerary")
+            .leftJoinAndSelect("event.attendees", "attendees")
             .where({ id })
             .getOne();
 
