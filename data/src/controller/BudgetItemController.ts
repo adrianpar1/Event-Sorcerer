@@ -1,20 +1,27 @@
 import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
-import { Budget } from "../entity/Budget";
+import { BudgetItem } from "../entity/BudgetItem";
 
 export class BudgetItemController {
-    private itemRepository = AppDataSource.getRepository(Budget);
+    private itemRepository = AppDataSource.getRepository(BudgetItem);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.itemRepository.find();
+        const items = await this.itemRepository
+            .createQueryBuilder("budgetItem")
+            .leftJoinAndSelect("budgetItem.budget", "budget")
+            .getMany();
+
+        return items;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        const item = await this.itemRepository.findOne({
-            where: { id },
-        });
+        const item = await this.itemRepository
+            .createQueryBuilder("budgetItem")
+            .leftJoinAndSelect("budgetItem.budget", "budget")
+            .where({ id })
+            .getOne();
 
         if (!item) {
             return "no budget item found";
@@ -25,7 +32,7 @@ export class BudgetItemController {
     async save(request: Request, response: Response, next: NextFunction) {
         const { expenseAmount, expenseDescription, budget } = request.body;
 
-        const details = Object.assign(new Budget(), {
+        const details = Object.assign(new BudgetItem(), {
             expenseAmount,
             expenseDescription,
             budget,
@@ -38,23 +45,35 @@ export class BudgetItemController {
         const id = parseInt(request.params.id);
         const body = request.body;
 
-        let existingBudget = await this.itemRepository.findOneBy({ id });
+        const existingItem = await this.itemRepository
+            .createQueryBuilder("budgetItem")
+            .leftJoinAndSelect("budgetItem.budget", "budget")
+            .where({ id })
+            .getOne();
 
-        if (!existingBudget) {
+        if (!existingItem) {
             return "this budget item does not exist";
         }
 
         await this.itemRepository.update(id, body);
 
-        let newBudget = await this.itemRepository.findOneBy({ id });
+        const newItem = await this.itemRepository
+            .createQueryBuilder("budgetItem")
+            .leftJoinAndSelect("budgetItem.budget", "budget")
+            .where({ id })
+            .getOne();
 
-        return newBudget;
+        return newItem;
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
 
-        let itemToRemove = await this.itemRepository.findOneBy({ id });
+        const itemToRemove = await this.itemRepository
+            .createQueryBuilder("budgetItem")
+            .leftJoinAndSelect("budgetItem.budget", "budget")
+            .where({ id })
+            .getOne();
 
         if (!itemToRemove) {
             return "this budget item does not exist";

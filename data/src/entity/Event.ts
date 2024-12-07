@@ -27,8 +27,7 @@ export class Event {
     tasks: Task[];
 
     @OneToOne(() => Budget, (budget) => budget.event, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "budget" })
-    budget: Budget[];
+    budget: Budget;
 
     @OneToMany(() => Subevent, (subevent) => subevent.event, {
         onDelete: "CASCADE",

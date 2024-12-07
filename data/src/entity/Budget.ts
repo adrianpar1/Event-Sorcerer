@@ -4,6 +4,7 @@ import {
     Column,
     OneToOne,
     OneToMany,
+    JoinColumn,
 } from "typeorm";
 import { Event } from "./Event";
 import { BudgetItem } from "./BudgetItem";
@@ -14,10 +15,10 @@ export class Budget {
     totalBudget: number;
 
     @OneToMany(() => BudgetItem, (budgetItem) => budgetItem.budget)
-    budgetItem: number;
+    budgetItem: BudgetItem[];
 
-    // BUG - "Property "event" was not found in "Budget". Make sure your query is correct."
     @OneToOne(() => Event, (event) => event.budget)
+    @JoinColumn({ name: "event" })
     event: Event;
 
     @PrimaryGeneratedColumn()

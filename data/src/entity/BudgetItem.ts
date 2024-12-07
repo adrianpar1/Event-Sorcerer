@@ -3,8 +3,8 @@ import { Budget } from "./Budget";
 
 @Entity()
 export class BudgetItem {
-    @Column()
-    expenseAmount: string;
+    @Column({ type: "float" })
+    expenseAmount: number;
 
     @Column()
     expenseDescription: string;

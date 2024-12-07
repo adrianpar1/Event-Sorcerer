@@ -5,6 +5,7 @@ import { SubeventController } from "./controller/SubeventController";
 import { TaskController } from "./controller/TaskController";
 import { BudgetController } from "./controller/BudgetController";
 import { AttendeeController } from "./controller/AttendeeController";
+import { BudgetItemController } from "./controller/BudgetItemController";
 
 export const Routes = [
     // Event routes ("/event")
@@ -89,7 +90,6 @@ export const Routes = [
         validation: [param("id").isInt()],
     },
     // Budget routes ("/budget")
-    // WORK IN PROGRESS
     {
         method: "get",
         route: "/budget",
@@ -125,7 +125,46 @@ export const Routes = [
         action: "remove",
         validation: [param("id").isInt()],
     },
-
+    // BudgetItem routes ("/item")
+    {
+        method: "get",
+        route: "/item",
+        controller: BudgetItemController,
+        action: "all",
+        validation: [],
+    },
+    {
+        method: "get",
+        route: "/item/:id",
+        controller: BudgetItemController,
+        action: "one",
+        validation: [param("id").isInt()],
+    },
+    {
+        method: "post",
+        route: "/item",
+        controller: BudgetItemController,
+        action: "save",
+        validation: [
+            body("expenseAmount").isFloat(),
+            body("expenseDescription").isString(),
+            body("budget").isInt(),
+        ],
+    },
+    {
+        method: "patch",
+        route: "/item/:id",
+        controller: BudgetItemController,
+        action: "update",
+        validation: [param("id").isInt()],
+    },
+    {
+        method: "delete",
+        route: "/item/:id",
+        controller: BudgetItemController,
+        action: "remove",
+        validation: [param("id").isInt()],
+    },
     // Subevent routes ("/subevents")
     {
         method: "get",
