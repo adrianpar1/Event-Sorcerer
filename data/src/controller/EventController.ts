@@ -13,6 +13,7 @@ export class EventController {
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
             .leftJoinAndSelect("event.subevents", "subevents")
             .leftJoinAndSelect("event.attendees", "attendees")
+            .orderBy("event.id")
             .getMany();
 
         return events;
