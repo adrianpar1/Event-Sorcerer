@@ -9,6 +9,7 @@ export class TaskController {
         const tasks = await this.taskRepository
             .createQueryBuilder("task")
             .leftJoinAndSelect("task.event", "event")
+            .orderBy("task.id")
             .getMany();
 
         return tasks;

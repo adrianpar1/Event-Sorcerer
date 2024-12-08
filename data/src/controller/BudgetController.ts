@@ -10,6 +10,7 @@ export class BudgetController {
             .createQueryBuilder("budget")
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
             .leftJoinAndSelect("budget.event", "event")
+            .orderBy("budget.id")
             .getMany();
 
         return budgets;

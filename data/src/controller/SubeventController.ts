@@ -9,6 +9,7 @@ export class SubeventController {
         const subevents = await this.subeventRepository
             .createQueryBuilder("subevent")
             .leftJoinAndSelect("subevent.event", "event")
+            .orderBy("subevent.id")
             .getMany();
 
         return subevents;

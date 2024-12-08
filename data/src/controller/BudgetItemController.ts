@@ -9,6 +9,7 @@ export class BudgetItemController {
         const items = await this.itemRepository
             .createQueryBuilder("budgetItem")
             .leftJoinAndSelect("budgetItem.budget", "budget")
+            .orderBy("budgetItem.id")
             .getMany();
 
         return items;

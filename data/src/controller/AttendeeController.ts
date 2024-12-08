@@ -9,6 +9,7 @@ export class AttendeeController {
         const attendees = await this.attendeeRepository
             .createQueryBuilder("attendee")
             .leftJoinAndSelect("attendee.event", "event")
+            .orderBy("attendee.id")
             .getMany();
 
         return attendees;
