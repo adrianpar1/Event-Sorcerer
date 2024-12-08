@@ -7,11 +7,14 @@ import {
 
 @Entity()
 export class User {
+    @Column()
+    firstName: string;
+
+    @Column()
+    lastName: string;
+
     @Column({ unique: true })
     username: string;
-
-    @Column({ select: false })
-    password: string;
 
     // figure out password hashing mechanism later
     @Column()
@@ -20,16 +23,6 @@ export class User {
     @Column()
     email: string;
 
-    @Column()
-    role: string;
-
-    @Column()
-    company: string;
-
     @PrimaryGeneratedColumn()
     id: number;
-
-    // determine if data type needs to be changed later
-    @UpdateDateColumn({ type: "timestamp" })
-    lastLogin: Date;
 }
