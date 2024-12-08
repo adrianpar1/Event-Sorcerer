@@ -40,7 +40,7 @@ afterEach(() => {
     server.close();
 });
 
-describe("Task Tests", () => {
+describe("Budget Tests", () => {
     describe("Initialization", () => {
         // PASSED
         it("should connect", async () => {
