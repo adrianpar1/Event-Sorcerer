@@ -50,6 +50,7 @@ export class BudgetController {
         const existingBudget = await this.budgetRepository
             .createQueryBuilder("budget")
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .leftJoinAndSelect("budget.event", "event")
             .where({ id })
             .getOne();
 
@@ -62,6 +63,7 @@ export class BudgetController {
         const newBudget = await this.budgetRepository
             .createQueryBuilder("budget")
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .leftJoinAndSelect("budget.event", "event")
             .where({ id })
             .getOne();
 
@@ -74,6 +76,7 @@ export class BudgetController {
         let budgetToRemove = await this.budgetRepository
             .createQueryBuilder("budget")
             .leftJoinAndSelect("budget.budgetItem", "budgetItem")
+            .leftJoinAndSelect("budget.event", "event")
             .where({ id })
             .getOne();
 

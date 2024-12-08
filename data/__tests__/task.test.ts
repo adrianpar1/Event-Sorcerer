@@ -12,6 +12,12 @@ const testEvent = {
     eventDescription: "Launch party for Event Sorcerer!",
 };
 
+const testEvent2 = {
+    eventName: "Class Final",
+    eventDate: "2024-12-17",
+    eventDescription: "Final exam for our class",
+};
+
 const testTask = {
     taskName: "Get food",
     date: "2024-12-02",
@@ -275,6 +281,30 @@ describe("Task Tests", () => {
                     eventDate: "2024-01-01",
                     eventDescription: "Launch party for Event Sorcerer!",
                     id: 1,
+                },
+                id: 1,
+            });
+        });
+
+        // PASSED
+        it("should update the specified task's related event", async () => {
+            await request(app).post("/event").send(testEvent);
+            await request(app).post("/event").send(testEvent2);
+            await request(app).post("/tasks").send(testTask);
+
+            const response = await request(app).patch("/tasks/1").send({
+                event: 2,
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toEqual({
+                taskName: "Get food",
+                date: "2024-12-02",
+                assignedTo: "Geoffrey",
+                event: {
+                    eventName: "Class Final",
+                    eventDate: "2024-12-17",
+                    eventDescription: "Final exam for our class",
+                    id: 2,
                 },
                 id: 1,
             });
