@@ -59,6 +59,7 @@ export function EventSorcererComponent() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [newExpense, setNewExpense] = useState<number | null>(null);
   const [expenseDescription, setExpenseDescription] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleCreateEvent = () => {
     if (newEvent.title && newEvent.date && newEvent.budget) {
@@ -83,6 +84,10 @@ export function EventSorcererComponent() {
 
   const handleAddExpense = () => {
     if (selectedEvent && newExpense !== null && newExpense > 0) {
+      if (selectedEvent.budget - newExpense < 0) {
+        setError('The expense exceeds the remaining budget!');
+        return;
+      }
       setEvents(events.map(event =>
         event.id === selectedEvent.id
           ? {
@@ -98,6 +103,7 @@ export function EventSorcererComponent() {
       ));
       setNewExpense(null);
       setExpenseDescription(''); // Reset the description field
+      setError(null);
     }
   };
   
@@ -753,6 +759,19 @@ export function EventSorcererComponent() {
                                   }
                                   className="h-2"
                               />
+                              {error && (
+                                <div className="text-red-600 text-sm mt-2">
+                                  {error}
+                                </div>
+                              )}
+                              
+                              <div className="flex flex-col space-y-2">
+                                <Input
+                                  type="number"
+                                  placeholder="Expense amount"
+                                  value={newExpense || ''}
+                                  onChange={(e) => setNewExpense(parseFloat(e.target.value) || null)}
+                                />
                               {/* <div className="flex items-center space-x-2">
                                   <Input
                                       type="number"
@@ -765,13 +784,6 @@ export function EventSorcererComponent() {
                                   />
                                       <Button onClick={handleAddExpense}>Add Expense</Button>
                               </div> */}
-                              <div className="flex flex-col space-y-2">
-                              <Input
-                                    type="number"
-                                  placeholder="Expense amount"
-                                 value={newExpense || ''}
-                                  onChange={(e) => setNewExpense(parseFloat(e.target.value) || null)}
-                               />
                               <Input
                                 type="text"
                                 placeholder="Description of expense"
